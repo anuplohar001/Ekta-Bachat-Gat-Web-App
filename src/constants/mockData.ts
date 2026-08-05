@@ -237,14 +237,32 @@ export const monthlyReport: MonthlyReport = {
   totalService: '₹21,230',
   totalPenalty: '₹280',
   rows: [
-    { name: 'मुनीर हुसेनभाई', saving: 1000, total: 3120 },
+    { name: 'मुनीर हुसेनभाई', saving: 1000, total: 3120000 },
+    { name: 'शाम रामदास', saving: 1000, total: 3120 },
+    { name: 'शाम रामदास', saving: 1000, total: 3120 },
+    { name: 'शाम रामदास', saving: 1000, total: 3120 },
+    { name: 'शाम रामदास', saving: 1000, total: 3120 },
+    { name: 'शाम रामदास', saving: 1000, total: 3120 },
+    { name: 'शाम रामदास', saving: 1000, total: 3120 },
+    { name: 'शाम रामदास', saving: 1000, total: 3120 },
+    { name: 'शाम रामदास', saving: 1000, total: 3120 },
+    { name: 'शाम रामदास', saving: 1000, total: 3120 },
+    { name: 'शाम रामदास', saving: 1000, total: 3120 },
+    { name: 'शाम रामदास', saving: 1000, total: 3120 },
     { name: 'शाम रामदास', saving: 1000, total: 3120 },
     { name: 'प्रमोद शहाजी', saving: 1000, total: 2880 },
     { name: 'राहुल आंबादास', saving: 1000, total: 3160 },
     { name: 'संदिप नामदेव', saving: 1000, total: 2930 },
     { name: 'कु. गौरव तानाजी', saving: 1000, total: 12000 },
+    { name: 'कु. गौरव तानाजी', saving: 1000, total: 12000 },
+    { name: 'कु. गौरव तानाजी', saving: 1000, total: 12000 },
+    { name: 'कु. गौरव तानाजी', saving: 1000, total: 12000 },
+    { name: 'कु. गौरव तानाजी', saving: 1000, total: 12000 },
+    { name: 'कु. गौरव तानाजी', saving: 1000, total: 12000 },
+    { name: 'कु. गौरव तानाजी', saving: 1000, total: 12000 },
   ],
   totals: { saving: 29000, total: 172510 },
+  
 };
 
 // yearly summary (screen "वार्षिक सारांश")

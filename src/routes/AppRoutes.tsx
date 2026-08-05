@@ -17,7 +17,6 @@ export default function AppRoutes() {
         <Route path="/members/:id" element={<MemberDetailPage />} />
         <Route path="/entry" element={<EntryPage />} />
         <Route path="/report" element={<ReportPage />} />
-        <Route path="/total" element={<TotalPage />} />
         <Route path="/modal" element={<ModalPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>

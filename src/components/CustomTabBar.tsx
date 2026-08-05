@@ -17,8 +17,7 @@ const TABS: TabMeta[] = [
   { to: '/', label: 'मुख्यपृष्ठ', Icon: HomeIcon, end: true },
   { to: '/members', label: 'सभासद', Icon: MembersIcon },
   { to: '/entry', label: 'नोंद', Icon: EntryIcon },
-  { to: '/report', label: 'जमाखर्च', Icon: ReportIcon },
-  { to: '/total', label: 'तेरीज', Icon: ReportIcon },
+  { to: '/report', label: 'रेपोर्टस', Icon: ReportIcon },
 ];
 
 export default function CustomTabBar() {

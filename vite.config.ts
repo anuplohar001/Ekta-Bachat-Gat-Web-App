@@ -9,8 +9,8 @@ export default defineConfig({
       registerType: "autoUpdate",
 
       manifest: {
-        name: "SHG Finance",
-        short_name: "SHG",
+        name: "एकता बचत गत (शो. सं . २०१९)",
+        short_name: "एकता बचत गत",
         description: "Self Help Group Financial Management",
         theme_color: "#2563eb",
         background_color: "#ffffff",
@@ -19,12 +19,12 @@ export default defineConfig({
 
         icons: [
           {
-            src: "icon.jpeg",
+            src: "icon.png",
             sizes: "192x192",
             type: "image/png"
           },
           {
-            src: "icon.jpeg",
+            src: "icon.png",
             sizes: "512x512",
             type: "image/png"
           }

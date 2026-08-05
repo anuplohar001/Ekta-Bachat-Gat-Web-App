@@ -5,13 +5,113 @@ import { ChevronDownIcon } from '../components/Icons';
 import { Card, SectionTitle, Chip } from '../components/UI';
 import ScreenShell from '../components/ScreenShell';
 import styles from './ReportScreen.module.css';
-
+import "./Reports.css"
 type ReportMode = 'month' | 'year';
 
 interface ModeSwitchProps {
   mode: ReportMode;
   onChange: (mode: ReportMode) => void;
 }
+
+
+
+// Sample data structure based on your snippet
+
+
+const ReportTable: React.FC = () => {
+  return (
+    <div className="table-container">
+      <table className="report-table">
+        <colgroup>
+          <col className="col-width-primary" />
+          <col className="col-width-secondary" />
+          <col className="col-width-rest" span={10} />
+        </colgroup>
+
+        <thead>
+          <tr className="header-row">
+            <th className="header-cell header-cell-left">अनू.क्र.</th>
+            <th className="header-cell header-cell-left-2">सभासद</th>
+            <th className="header-cell">मासिक बचत</th>
+            <th className="header-cell">आर्थिक सहाय्य परत फेड </th>
+            <th className="header-cell">सेवाशुल्क </th>
+            <th className="header-cell">दंड </th>
+            <th className="header-cell">एकुण</th>
+            <th className="header-cell">दिलेले आर्थिक सहाय्य </th>
+            <th className="header-cell">आजपर्यंत एकुण बचत </th>
+            <th className="header-cell">एकुण आर्थिक सहाय्य</th>
+            <th className="header-cell">एकुण परतफेड</th>
+            <th className="header-cell">आर्थिक सहाय्य बाकी</th>
+            <th className="header-cell">एकुण सेवाशुल्क</th>
+            <th className="header-cell">एकुण दंड</th>
+
+          </tr>
+        </thead>
+
+        <tbody>
+          {monthlyReport.rows.map((r, idx) => (
+            <tr key={idx} className="body-row">
+              <td className="body-cell sticky-col-1 body-cell-name">{idx + 1}</td>
+              <td className="body-cell sticky-col-2 body-cell-name">{r.name}</td>
+              <td className="body-cell">{r.saving}</td>
+              {[...Array(11)].map((_, i) => (
+                <td key={i} className="body-cell body-cell-highlight">
+                  {r.total.toLocaleString('en-IN')}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+
+        <tfoot>
+          <tr className="footer-row">
+            <td className="footer-cell footer-cell-name" colSpan={2}>एकुण</td>
+            <td className="footer-cell">
+              {monthlyReport.totals.saving.toLocaleString('en-IN')}
+            </td>
+            <td className="footer-cell">
+              {monthlyReport.totals.saving.toLocaleString('en-IN')}
+            </td>
+            <td className="footer-cell">
+              {monthlyReport.totals.saving.toLocaleString('en-IN')}
+            </td>
+            <td className="footer-cell">
+              {monthlyReport.totals.saving.toLocaleString('en-IN')}
+            </td>
+            <td className="footer-cell">
+              {monthlyReport.totals.saving.toLocaleString('en-IN')}
+            </td>
+            <td className="footer-cell">
+              {monthlyReport.totals.saving.toLocaleString('en-IN')}
+            </td>
+            <td className="footer-cell">
+              {monthlyReport.totals.saving.toLocaleString('en-IN')}
+            </td>
+            <td className="footer-cell">
+              {monthlyReport.totals.saving.toLocaleString('en-IN')}
+            </td>
+            <td className="footer-cell">
+              {monthlyReport.totals.saving.toLocaleString('en-IN')}
+            </td>
+            <td className="footer-cell">
+              {monthlyReport.totals.saving.toLocaleString('en-IN')}
+            </td>
+            <td className="footer-cell">
+              {monthlyReport.totals.saving.toLocaleString('en-IN')}
+            </td>
+
+            <td className="footer-cell footer-cell-highlight">
+              {monthlyReport.totals.total.toLocaleString('en-IN')}
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  );
+};
+
+
+
 
 function ModeSwitch({ mode, onChange }: ModeSwitchProps) {
   return (
@@ -41,7 +141,7 @@ function ModeSwitch({ mode, onChange }: ModeSwitchProps) {
 function MonthlyReportBody() {
   return (
     <>
-      <div className={styles.statStripRow}>
+      {/* <div className={styles.statStripRow}>
         <Card className={styles.statChip}>
           <p className={styles.statChipLabel}>एकुण जमा</p>
           <p className={styles.statChipValue}>{monthlyReport.totalDeposit}</p>
@@ -56,47 +156,11 @@ function MonthlyReportBody() {
             {monthlyReport.totalPenalty}
           </p>
         </Card>
-      </div>
+      </div> */}
 
       <SectionTitle style={{ marginTop: 6 }}>सभासदनिहाय तपशील · {monthlyReport.rows.length}</SectionTitle>
 
-      <Card style={{ overflow: 'hidden' }}>
-        <div className={`${styles.tableRow} ${styles.tableHeadRow}`}>
-          <span className={styles.tableHeadCell} style={{ flex: 1.6, textAlign: 'left' }}>
-            सभासद
-          </span>
-          <span className={styles.tableHeadCell} style={{ flex: 1, textAlign: 'right' }}>
-            बचत
-          </span>
-          <span className={styles.tableHeadCell} style={{ flex: 1, textAlign: 'right' }}>
-            एकुण
-          </span>
-        </div>
-        {monthlyReport.rows.map((r, idx) => (
-          <div key={idx} className={styles.tableRow} style={{ borderTop: `1px solid ${colors.rowDivider}` }}>
-            <span className={styles.tableCell} style={{ flex: 1.6, fontWeight: 600 }}>
-              {r.name}
-            </span>
-            <span className={styles.tableCell} style={{ flex: 1, textAlign: 'right' }}>
-              {r.saving}
-            </span>
-            <span className={styles.tableCell} style={{ flex: 1, textAlign: 'right', fontWeight: 700, color: colors.blueInk }}>
-              {r.total.toLocaleString('en-IN')}
-            </span>
-          </div>
-        ))}
-        <div className={`${styles.tableRow} ${styles.tableTotalRow}`}>
-          <span className={styles.tableCell} style={{ flex: 1.6, fontWeight: 800, color: colors.forest }}>
-            एकुण जमा
-          </span>
-          <span className={styles.tableCell} style={{ flex: 1, textAlign: 'right', fontWeight: 800 }}>
-            {monthlyReport.totals.saving.toLocaleString('en-IN')}
-          </span>
-          <span className={styles.tableCell} style={{ flex: 1, textAlign: 'right', fontWeight: 800, color: colors.blueInk }}>
-            {monthlyReport.totals.total.toLocaleString('en-IN')}
-          </span>
-        </div>
-      </Card>
+      <ReportTable />
     </>
   );
 }
@@ -199,45 +263,71 @@ export default function ReportScreen() {
         <>
           <div className={styles.headerTop}>
             <h1 className={styles.headerTitle}>{mode === 'month' ? 'महिना अहवाल' : 'वार्षिक सारांश'}</h1>
-            <ModeSwitch mode={mode} onChange={setMode} />
           </div>
 
-          {mode === 'month' ? (
-            <div style={{ display: 'flex', flexDirection: 'row', gap: 8 }}>
-              <Chip
-                style={{ flex: 1, justifyContent: 'center', backgroundColor: colors.goldPale, borderColor: colors.gold }}
-              >
-                <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                  <span style={{ color: colors.goldPaleText, fontWeight: 600, fontSize: 11.5 }}>{monthlyReport.month}</span>
-                  <ChevronDownIcon />
-                </span>
-              </Chip>
-              <Chip
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  backgroundColor: 'rgba(255,255,255,0.12)',
-                  borderColor: 'rgba(255,255,255,0.25)',
-                }}
-              >
-                <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                  <span style={{ color: '#EFE8D6', fontWeight: 600, fontSize: 11.5 }}>{monthlyReport.year}</span>
-                  <ChevronDownIcon color="#EFE8D6" />
-                </span>
-              </Chip>
-            </div>
-          ) : (
-            <Chip style={{ alignSelf: 'flex-start', backgroundColor: colors.goldPale, borderColor: colors.gold }}>
-              <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                <span style={{ color: colors.goldPaleText, fontWeight: 600, fontSize: 11.5 }}>{yearlySummary.year}</span>
-                <ChevronDownIcon />
-              </span>
-            </Chip>
-          )}
         </>
       }
     >
-      {mode === 'month' ? <MonthlyReportBody /> : <YearlySummaryBody />}
+
+      <div style={{ display: 'flex', flexDirection: 'row', gap: 8, marginBottom: 12 }}>
+        <Chip
+          style={{ flex: 1, justifyContent: 'center', backgroundColor: colors.goldPale, borderColor: colors.gold }}
+        >
+          <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+            <span style={{ color: colors.goldPaleText, fontWeight: 600, fontSize: 13.5 }}>
+              जमाखर्च 
+            </span>
+          </span>
+        </Chip>
+        <Chip
+          style={{ flex: 1, justifyContent: 'center', backgroundColor: colors.goldPale, borderColor: colors.gold }}
+        >
+          <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+            <span style={{ color: colors.goldPaleText, fontWeight: 600, fontSize: 13.5 }}>
+              तेरीज पत्रक
+            </span>
+          </span>
+        </Chip>
+        <Chip
+          style={{ flex: 1, justifyContent: 'center', backgroundColor: colors.goldPale, borderColor: colors.gold }}
+        >
+          <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+            <span style={{ color: colors.goldPaleText, fontWeight: 600, fontSize: 13.5 }}>
+              सर्व रीपोर्ट
+            </span>
+          </span>
+        </Chip>
+      </div>
+
+
+      {mode === 'month' ? (
+        <div style={{ display: 'flex', flexDirection: 'row', gap: 8, marginBottom: 12 }}>
+          <Chip
+            style={{ flex: 1, justifyContent: 'center', backgroundColor: colors.goldPale, borderColor: colors.gold }}
+          >
+            <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+              <span style={{ color: colors.goldPaleText, fontWeight: 600, fontSize: 13.5 }}>{monthlyReport.month}</span>
+              <ChevronDownIcon />
+            </span>
+          </Chip>
+          <Chip
+            style={{ flex: 1, justifyContent: 'center', backgroundColor: colors.goldPale, borderColor: colors.gold }}
+          >
+            <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+              <span style={{ color: colors.goldPaleText, fontWeight: 600, fontSize: 13.5 }}>{monthlyReport.year}</span>
+              <ChevronDownIcon color="#EFE8D6" />
+            </span>
+          </Chip>
+        </div>
+      ) : (
+        <Chip style={{ alignSelf: 'flex-start', backgroundColor: colors.goldPale, borderColor: colors.gold }}>
+          <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+            <span style={{ color: colors.goldPaleText, fontWeight: 600, fontSize: 11.5 }}>{yearlySummary.year}</span>
+            <ChevronDownIcon />
+          </span>
+        </Chip>
+      )}
+      <MonthlyReportBody />
     </ScreenShell>
   );
 }

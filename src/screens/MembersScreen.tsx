@@ -72,21 +72,22 @@ export default function MembersScreen() {
           </div>
         </>
       }
+      stickyBar={
+        <div className={styles.chipRow}>
+          <Chip active={filter === 'completed'} onPress={() => setFilter('completed')}>
+            <span style={{ color: filter === 'completed' ? '#fff' : '#000' }}>सर्व · २९ </span>
+          </Chip>
+
+          <Chip active={filter === 'all'} onPress={() => setFilter('all')}>
+            <span style={{ color: filter === 'all' ? '#fff' : '#000' }}>नोंद पूर्ण· १८ </span>
+          </Chip>
+
+          <Chip active={filter === 'pending'} onPress={() => setFilter('pending')}>
+            <span style={{ color: filter === 'pending' ? '#fff' : '#ff2d2d' }}>नोंद बाकी · {pendingCount}</span>
+          </Chip>
+        </div>
+      }
     >
-      <div className={styles.chipRow}>
-        <Chip active={filter === 'completed'} onPress={() => setFilter('completed')}>
-          <span style={{ color: filter === 'completed' ? '#fff' : '#000' }}>सर्व · २९ </span>
-        </Chip>
-
-        <Chip active={filter === 'all'} onPress={() => setFilter('all')}>
-          <span style={{ color: filter === 'all' ? '#fff' : '#000' }}>नोंद पूर्ण· १८ </span>
-        </Chip>
-
-        <Chip active={filter === 'pending'} onPress={() => setFilter('pending')}>
-          <span style={{ color: filter === 'pending' ? '#fff' : '#ff2d2d' }}>नोंद बाकी · {pendingCount}</span>
-        </Chip>
-      </div>
-
       <div className={styles.list}>
         {filtered.map((item) => (
           <MemberRow key={item.id} member={item} onPress={() => navigate(`/members/${item.id}`)} />

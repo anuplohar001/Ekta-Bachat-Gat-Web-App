@@ -107,7 +107,7 @@ export default function HomeScreen() {
           <PillButton
             style={{ flex: 1, backgroundColor: colors.successText, boxShadow: '0 6px 10px rgba(27, 67, 50, 0.55)' }}
             textStyle={{ color: colors.cream2 }}
-            onPress={() => navigate('/entry')}
+            onPress={() => navigate('/report')}
             icon={<EntryIcon color={colors.cream2} />}
           >
             जमाखर्च
