@@ -1,50 +1,64 @@
-.banner {
-  display: flex;
-  align-items: center;
-  height: 36px;
-}
-
 .avatar {
-  position: absolute;
-  align-self: center;
-  bottom: -64px;
-  width: 88px;
-  height: 88px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
   border: 3px solid #ffffff;
-  background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+  background: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
 }
 
-.avatarText {
-  font-weight: 700;
-  font-size: 34px;
-  color: #3a2c05;
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .profileSection {
-  background: #ffffff;
-  border-radius: 18px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 0px;
+  /* padding: 10px 0 14px; */
+  /* border:2px solid black; */
+  margin-bottom: 0px;
+}
+
+.profileInfo {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 64px;
-  padding-bottom: 18px;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+  margin-bottom: 0px;
 }
 
 .name {
-  font-size: 22px;
+  font-size: 32px;
+  margin: 0;
   font-weight: 700;
   color: var(--ink);
+  line-height: 1.2;
+  text-align: center;
 }
 
 .sub {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-top: 6px;
+  margin-top: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--forest);
+  text-align: center;
+}
+.address {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--forest);
 }
 
 .pendingNote {
@@ -63,13 +77,14 @@
 }
 
 .progressLabel {
-  font-size: 12.5px;
-  color: var(--text-muted);
+  font-size: 18.5px;
+  color: var(--red-ink);
   font-weight: 600;
+  margin-top: 6px;
 }
 
 .progressValue {
-  margin-top: 6px;
+  margin-bottom: 6px;
   font-size: 22px;
   font-weight: 800;
   color: var(--forest);
@@ -90,19 +105,22 @@
 
 .statCard {
   flex: 1;
-  padding: 14px;
+  /* padding: 8px; */
+  text-align: center;
 }
 
 .statLabel {
-  font-size: 13.5px;
-  color: var(--text-muted);
+  font-size: 18.5px;
+  color: var(--text-dark);
   font-weight: 600;
+  margin-bottom: 0px;
+  /* line-height: .2; */
 }
 
 .statValue {
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 800;
-  margin-top: 6px;
+  margin-top: 0px;
   color: var(--ink);
 }
 
@@ -113,18 +131,24 @@
 }
 
 .quickActions {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  /* margin-top: 2px; */
+  margin-bottom: 12px;
+}
+
+.quickActions .quickBox {
   flex-direction: column;
-  gap: 10px;
-  margin-top: 2px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 8px;
+  border-radius: 15px;
+  min-height: 86px;
+  box-shadow: 0 3px 8px rgba(20, 36, 28, 0.1);
 }
 
-.fullBtn {
-  width: 100%;
-}
-
-.halfRow {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
+.quickActions .quickBox span {
+  font-size: 18.5px;
 }

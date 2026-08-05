@@ -10,7 +10,7 @@ export default defineConfig({
 
       manifest: {
         name: "एकता बचत गत (शो. सं . २०१९)",
-        short_name: "एकता बचत गत",
+        short_name: "एकता बचत गट",
         description: "Self Help Group Financial Management",
         theme_color: "#2563eb",
         background_color: "#ffffff",
