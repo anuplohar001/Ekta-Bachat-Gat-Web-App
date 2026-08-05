@@ -1,0 +1,229 @@
+.headerTop {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.headerTitle {
+  font-size: 19px;
+  font-weight: 600;
+  color: #fbf7ec;
+}
+
+.switchTrack {
+  display: flex;
+  flex-direction: row;
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.switchBtn {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.switchBtnActive {
+  background-color: var(--gold);
+}
+
+.switchText {
+  font-size: 11px;
+  font-weight: 700;
+  color: #efe8d6;
+}
+
+.switchTextActive {
+  color: #2b2405;
+}
+
+.statStripRow {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.statChip {
+  flex: 1;
+  padding: 11px;
+}
+
+.statChipLabel {
+  font-size: 9.5px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.statChipValue {
+  font-size: 14px;
+  font-weight: 800;
+  margin-top: 3px;
+  color: var(--ink);
+}
+
+.tableRow {
+  display: flex;
+  flex-direction: row;
+  padding: 9px 10px;
+}
+
+.tableHeadRow {
+  background-color: #f6f1e2;
+}
+
+.tableHeadCell {
+  font-size: 9.5px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.tableCell {
+  font-size: 11.5px;
+  color: var(--text);
+}
+
+.tableTotalRow {
+  border-top: 1.5px solid #ded0a0;
+  background-color: #fbf7ec;
+}
+
+.heroCard {
+  padding: 18px;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 14px;
+  background: linear-gradient(135deg, var(--forest) 20%, var(--forest-deep) 80%);
+}
+
+.heroLabel {
+  font-size: 10.5px;
+  color: var(--header-subtle-text);
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+.heroValue {
+  font-size: 26px;
+  font-weight: 800;
+  color: #fbf7ec;
+  margin-top: 6px;
+}
+
+.heroSub {
+  font-size: 10.5px;
+  color: var(--gold-soft);
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.statGrid2 {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.statCard2 {
+  width: 47.5%;
+  padding: 13px;
+}
+
+.statValue2 {
+  font-size: 15px;
+  font-weight: 800;
+  margin-top: 5px;
+  color: var(--ink);
+}
+
+.chartCard {
+  padding: 16px 14px 10px;
+}
+
+.chartRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 100px;
+}
+
+.barTrack {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.bar {
+  width: 10px;
+  border-radius: 3px;
+}
+
+.chartLabels {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 4px;
+  padding: 0 1px;
+}
+
+.chartLabel {
+  font-size: 7.5px;
+  color: var(--text-muted);
+  flex: 1;
+  text-align: center;
+}
+
+.contributorRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 11px;
+}
+
+.contributorDivider {
+  border-bottom: 1px solid var(--row-divider);
+}
+
+.rankBadge {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--row-divider);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rankText {
+  font-size: 10px;
+  font-weight: 800;
+  color: #8a7a4a;
+}
+
+.contributorName {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.contributorAmount {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--forest);
+}

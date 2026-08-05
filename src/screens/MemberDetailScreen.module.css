@@ -1,0 +1,214 @@
+.profileRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.headerRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+}
+
+.avatarText {
+  font-weight: 700;
+  color: #3a2c05;
+  font-size: 19px;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fbf7ec;
+  margin-top: 8px;
+}
+
+.sub {
+  font-size: 13px;
+  color: var(--header-subtle-text);
+  margin-top: 8px;
+}
+
+.statStrip {
+  padding: 8px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 35px;
+  margin-bottom: 10px;
+}
+
+.statCol {
+  width: 33.333%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.statColDivider {
+  border-left: 1px solid var(--cream-2);
+}
+
+.statColRowDivider {
+  border-top: 1px solid var(--cream-2);
+}
+
+.statLabel {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-align: center;
+  height: 30px;
+}
+
+.statValue {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.timeline {
+  position: relative;
+  padding-left: 18px;
+}
+
+.timelineLine {
+  position: absolute;
+  left: 5px;
+  top: 6px;
+  bottom: 6px;
+  width: 1.5px;
+  background-color: var(--paper-line);
+}
+
+.timelinePress {
+  display: block;
+  width: 100%;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.timelineItem {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.dot {
+  position: absolute;
+  left: -18px;
+  top: 4px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background-color: var(--bar-inactive);
+  border: 2px solid var(--cream);
+}
+
+.dotActive {
+  background-color: var(--gold);
+}
+
+.historyCard {
+  padding: 12px 13px;
+}
+
+.historyTop {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.historyMonth {
+  padding: 5px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--cream);
+  background-color: var(--success-green);
+}
+
+.totalsGroup {
+  display: flex;
+  flex-direction: row;
+}
+
+.totalPair {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: 19px;
+}
+
+.totalLabel {
+  font-size: 12px;
+  color: var(--success-text);
+}
+
+.totalValue {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--success-text);
+  line-height: 15px;
+}
+
+.breakdownRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid #edeff3;
+}
+
+.breakdownItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.breakdownLabel {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.breakdownValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 14px;
+}
+
+.penaltyText {
+  color: var(--red-ink);
+}

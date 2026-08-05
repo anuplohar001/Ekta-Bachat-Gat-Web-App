@@ -1,0 +1,71 @@
+:root {
+  /* color tokens (1:1 from constants/colors.ts / the HTML mockup CSS variables) */
+  --ink: #12241c;
+  --forest: #1b4332;
+  --forest-deep: #0e2318;
+  --gold: #c9a227;
+  --gold-soft: #e8d28a;
+  --gold-pale: #f4eac8;
+  --cream: #f6f1e6;
+  --cream-2: #efe8d6;
+  --paper-line: #e1d8bf;
+  --red-ink: #af3b2a;
+  --secondary: #b68f3b;
+  --blue-ink: #37609e;
+  --text: #1e1e1a;
+  --text-muted: #71695a;
+  --white: #ffffff;
+
+  --gold-pale-text: #6b5410;
+  --gold-dark-text: #8a6a10;
+  --success-bg: #e4f1e8;
+  --success-text: #2f6b45;
+  --success-green: #4e8c67;
+  --card-border: #ece4d0;
+  --row-divider: #f1ebda;
+  --input-border: #ded4b4;
+  --input-placeholder: #b7ad8c;
+  --chip-inactive-border: #e6dec7;
+  --tab-inactive: #a79e86;
+  --avatar-grad-from: #e9e0c8;
+  --avatar-grad-to: #dcce9f;
+  --bar-inactive: #d8cda3;
+  --header-subtle-text: #aec2b3;
+  --header-faint-text: #cfe0d5;
+  --blue-tint: #f0f5ff;
+  --border: #dce3ef;
+  --chip-bg: #f5f6f8;
+  --red-tint: #fdeaEA;
+  --card-bg: #ffffff;
+
+  /* font stacks (web equivalents of the loaded Google fonts) */
+  --font-sans: 'Inter', 'Noto Sans Devanagari', system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: 'Fraunces', 'Noto Serif Devanagari', Georgia, 'Times New Roman', serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--cream);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  font-family: inherit;
+}
+
+input {
+  font-family: inherit;
+}

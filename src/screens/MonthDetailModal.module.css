@@ -1,0 +1,112 @@
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 100;
+}
+
+.modalCard {
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  padding: 18px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modalHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.modalMonthYear {
+  font-size: 16px;
+  font-weight: 700;
+  padding: 5px;
+  border-radius: 10px;
+  color: var(--cream);
+  background-color: var(--success-green);
+}
+
+.modalClose {
+  font-size: 16px;
+  color: var(--text-muted);
+  padding: 0 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.modalSectionTitle {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--blue-ink);
+  margin-bottom: 8px;
+}
+
+.modalGrid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: 0 -6px;
+}
+
+.statBox {
+  width: 45%;
+  padding: 6px;
+  border-radius: 10px;
+}
+
+.statLabel {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+  text-align: center;
+}
+
+.statValue {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--blue-ink);
+  text-align: center;
+}
+
+.sectionDivider {
+  height: 1px;
+  background-color: #e4e7ec;
+  margin: 10px 0;
+}
+
+.bgBlue {
+  background-color: #eaf1ff;
+}
+
+.bgPurple {
+  background-color: #f1eaff;
+}
+
+.bgGreen {
+  background-color: #e9f9ef;
+}
+
+.bgTeal {
+  background-color: #e4f7f5;
+}
+
+.bgYellow {
+  background-color: #fff7e0;
+}
+
+.bgRed {
+  background-color: #fdeaea;
+}

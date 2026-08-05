@@ -1,0 +1,130 @@
+.banner {
+  display: flex;
+  align-items: center;
+  height: 36px;
+}
+
+.avatar {
+  position: absolute;
+  align-self: center;
+  bottom: -64px;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #ffffff;
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+.avatarText {
+  font-weight: 700;
+  font-size: 34px;
+  color: #3a2c05;
+}
+
+.profileSection {
+  background: #ffffff;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 64px;
+  padding-bottom: 18px;
+}
+
+.name {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.pendingNote {
+  font-size: 13px;
+  color: var(--red-ink);
+}
+
+.progressCard {
+  padding: 18px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  margin-top: 12px;
+}
+
+.progressLabel {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.progressValue {
+  margin-top: 6px;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--forest);
+}
+
+.statGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 3px;
+}
+
+.statRow {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.statCard {
+  flex: 1;
+  padding: 14px;
+}
+
+.statLabel {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.statValue {
+  font-size: 17px;
+  font-weight: 800;
+  margin-top: 6px;
+  color: var(--ink);
+}
+
+.statSub {
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.quickActions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.fullBtn {
+  width: 100%;
+}
+
+.halfRow {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
