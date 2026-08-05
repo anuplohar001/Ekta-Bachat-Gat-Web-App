@@ -35,7 +35,7 @@ export default function MemberDetailScreen() {
           </div>
         </div>
       }
-      overlapCard={
+      stickyBar={
         <Card className={styles.statStrip}>
           {[
             { label: 'आजपर्यंत एकुण बचत', value: member.totalSaving },

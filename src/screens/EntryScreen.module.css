@@ -19,7 +19,7 @@
 
 .progressBanner {
   padding: 14px;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -151,8 +151,4 @@
   font-size: 12px;
   font-weight: 700;
   color: var(--input-placeholder);
-}
-
-.stickyBtn {
-  margin-top: 4px;
 }

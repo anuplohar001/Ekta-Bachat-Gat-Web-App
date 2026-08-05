@@ -1,0 +1,148 @@
+/* Container strictly enforcing 90vw and 90vh */
+.table-container {
+    width: 90vw;
+    height: 60vh;
+    overflow: auto;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    /* Smooth scrolling for iOS */
+}
+
+/* Base table layout */
+.report-table {
+    width: max-content;
+    min-width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* Column Widths (mimicking flex: 1.6 and flex: 1) */
+.col-width-primary {
+    width: 30px;
+}
+
+.col-width-secondary {
+    width: 100px;
+}
+
+.col-width-rest {
+    width: 80px;
+}
+
+/* --------------------- */
+/* HEADER ROW (Sticky Top, NOT Sticky Left) */
+/* --------------------- */
+.header-row {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.header-cell {
+    padding: 11px 10px;
+    font-size: 12.5px;
+    color: var(--text-muted, #666);
+    font-weight: 700;
+    background-color: #fff1c6;
+    text-align: center;
+    /* white-space: nowrap; */
+}
+
+.header-cell-left {
+    text-align: left;
+    position: sticky;
+    left: 0;
+    z-index: 5;
+}
+
+.header-cell-left-2 {
+    text-align: left;
+    position: sticky;
+    left: 54px;
+    z-index: 53;
+}
+
+/* --------------------- */
+/* BODY ROWS (Scrollable vertically & horizontally) */
+/* --------------------- */
+.body-row {
+    border: 1px solid #e0e0e0;
+    /* Replacing colors.rowDivider */
+}
+
+.body-cell {
+    padding: 13px 18px;
+    font-size: 13.5px;
+    color: var(--text, #000);
+    text-align: right;
+    white-space: nowrap;
+    z-index: 1;
+    position: relative;
+    border-right: 1px solid #e0e0e0;
+}
+
+.body-cell-name {
+    text-align: left;
+    font-weight: 600;
+}
+
+.body-cell-highlight {
+    font-weight: 700;
+    color: #0056b3;
+    /* Replacing colors.blueInk */
+}
+
+/* --------------------- */
+/* STICKY COLUMNS (Horizontal scroll stickiness - ONLY in Body) */
+/* --------------------- */
+.sticky-col-1 {
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    background-color: #fbf7ec;
+    /* width: 40px; */
+    border-right: 1px solid #e0e0e0;
+}
+
+.sticky-col-2 {
+    position: sticky;
+    left: 53px;
+    z-index: 5;
+    background-color: #fbf7ec;
+    border-right: 1px solid #e0e0e0;
+}
+
+/* --------------------- */
+/* FOOTER ROW (Sticky Bottom, NOT Sticky Left) */
+/* --------------------- */
+.footer-row {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+}
+
+.footer-cell {
+    padding: 11px 10px;
+    font-size: 13.5px;
+    color: var(--text, #000);
+    text-align: right;
+    font-weight: 800;
+    background-color: #fbf7ec;
+    border-top: 1.5px solid #ded0a0;
+    /* white-space: nowrap; */
+}
+
+.footer-cell-name {
+    text-align: left;
+    color: #228B22;
+    position: sticky;
+    z-index: 10;
+    left: 0;
+    /* border: 1px solid #ded0a0; */
+    /* Replacing colors.forest */
+}
+
+.footer-cell-highlight {
+    color: #0056b3;
+    /* Replacing colors.blueInk */
+}

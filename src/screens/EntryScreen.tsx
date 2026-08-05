@@ -94,27 +94,25 @@ export default function EntryScreen() {
           </Chip>
         </div>
       }
-      contentContainerStyle={{ paddingBottom: 110 }}
+      stickyBar={
+        <Card className={styles.progressBanner}>
+          <span className={styles.progressText}>
+            {monthlyEntry.done} पूर्ण · {monthlyEntry.pending} बाकी
+          </span>
+          <div className={styles.progressTrack}>
+            <div
+              className={styles.progressFill}
+              style={{ width: `${(monthlyEntry.done / (monthlyEntry.done + monthlyEntry.pending)) * 100}%` }}
+            />
+          </div>
+        </Card>
+      }
+      stickyBottom={<PillButton>{monthlyEntry.pending} सभासदांची नोंद बाकी आहे</PillButton>}
+      contentContainerStyle={{ paddingBottom: 160 }}
     >
-      <Card className={styles.progressBanner}>
-        <span className={styles.progressText}>
-          {monthlyEntry.done} पूर्ण · {monthlyEntry.pending} बाकी
-        </span>
-        <div className={styles.progressTrack}>
-          <div
-            className={styles.progressFill}
-            style={{ width: `${(monthlyEntry.done / (monthlyEntry.done + monthlyEntry.pending)) * 100}%` }}
-          />
-        </div>
-      </Card>
-
       {monthlyEntry.rows.map((row) => (
         <EntryRowCard key={row.id} row={row} />
       ))}
-
-      <PillButton className={styles.stickyBtn}>
-        {monthlyEntry.pending} सभासदांची नोंद बाकी आहे
-      </PillButton>
     </ScreenShell>
   );
 }

@@ -9,6 +9,29 @@
   z-index: 4;
 }
 
+.stickyHeader {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.stickyBar {
+  background: var(--cream);
+  padding: 10px 16px;
+}
+
+.stickyBottom {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 82px;
+  z-index: 40;
+}
+
+.stickyBottom button {
+  width: 100%;
+}
+
 .headerGradient {
   background: linear-gradient(135deg, var(--forest) 20%, var(--forest-deep) 80%);
 }

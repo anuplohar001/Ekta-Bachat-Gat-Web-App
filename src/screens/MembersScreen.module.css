@@ -53,9 +53,6 @@
   display: flex;
   flex-direction: row;
   gap: 8px;
-  padding: 0 16px;
-  margin-top: 14px;
-  margin-bottom: 4px;
 }
 
 .list {
@@ -65,7 +62,7 @@
 }
 
 .rowCard {
-  padding: 2px;
+  /* padding: 2px; */
   margin-bottom: 10px;
 }
 
@@ -74,7 +71,7 @@
   flex-direction: row;
   align-items: center;
   gap: 12px;
-  padding: 13px 14px;
+  padding: 8px 14px;
 }
 
 .rowPress {
@@ -106,13 +103,13 @@
 }
 
 .rowName {
-  font-size: 13.5px;
+  font-size: 14.5px;
   font-weight: 600;
   color: var(--text);
 }
 
 .rowSub {
-  font-size: 10.5px;
+  font-size: 13.5px;
   color: var(--text-muted);
-  margin-top: 2px;
+  /* margin-top: 2px; */
 }
