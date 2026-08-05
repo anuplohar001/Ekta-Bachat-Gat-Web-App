@@ -5,6 +5,8 @@ export interface ScreenShellProps {
   /** content rendered inside the sticky green gradient block (top-only safe area) */
   header?: ReactNode;
   headerStyle?: React.CSSProperties;
+  /** optional background for the header block; overrides the default green gradient */
+  headerBackground?: string;
   /** extra content pinned directly below the header, inside the sticky green block */
   stickyBar?: ReactNode;
   /** content pinned to the bottom, above the tab bar (e.g. a sticky action button) */
@@ -25,6 +27,7 @@ export interface ScreenShellProps {
 export default function ScreenShell({
   header,
   headerStyle,
+  headerBackground,
   stickyBar,
   stickyBottom,
   overlapCard,
@@ -37,9 +40,13 @@ export default function ScreenShell({
     ? { paddingBottom: bottomTabBarHeight + 24, ...contentContainerStyle }
     : contentContainerStyle ?? {};
 
+  const headerContainerStyle: React.CSSProperties = headerBackground
+    ? { background: headerBackground }
+    : {};
+
   return (
     <div className={styles.root}>
-      <div className={`${styles.headerSafe} ${styles.headerGradient} ${styles.stickyHeader}`}>
+      <div className={`${styles.headerSafe} ${styles.headerGradient} ${styles.stickyHeader}`} style={headerContainerStyle}>
         <div className={styles.header} style={headerStyle}>
           {header}
         </div>

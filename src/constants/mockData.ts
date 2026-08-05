@@ -5,7 +5,7 @@ export interface GroupInfo {
 }
 
 export const groupInfo: GroupInfo = {
-  name: 'एकता बचत गट',
+  name: 'एकता युवा बचत गट',
   since: 2018,
   memberCount: 29,
 };
