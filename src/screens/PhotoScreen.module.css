@@ -1,0 +1,25 @@
+.headerTop {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.headerTitle {
+  font-size: 22px;
+  font-weight: 600;
+  color: #fbf7ec;
+}
+
+.photoList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.photoImage {
+  width: 100%;
+  height: 40vh;
+  object-fit: cover;
+  border-radius: 14px;
+}

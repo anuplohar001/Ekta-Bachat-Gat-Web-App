@@ -1,26 +1,116 @@
-.container {
-  min-height: 100vh;
+.headerWrap {
+  position: relative;
+}
+
+.headerRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar {
+  position: absolute;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+  border: 3px solid #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+.avatarText {
+  font-weight: 700;
+  color: #3a2c05;
+  font-size: 38px;
+}
+
+.profileCard {
+  margin-top: 20px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 20px;
+  text-align: center;
 }
 
-.title {
-  font-size: 20px;
+.name {
+  font-size: 22px;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--text);
+  margin: 0 0 6px;
 }
 
-.link {
-  margin-top: 15px;
-  padding: 15px 0;
-  color: var(--blue-ink);
+.sub {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.statStrip {
+  margin-top: 14px;
+  padding: 4px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.statCol {
+  width: 33.333%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 0;
+}
+
+.statColDivider {
+  border-left: 1px solid var(--cream-2);
+}
+
+.statColRowDivider {
+  border-top: 1px solid var(--cream-2);
+}
+
+.statLabel {
+  font-size: 15px;
+  color: var(--text-muted);
   font-weight: 600;
-  text-decoration: none;
+  text-align: center;
+  margin: 6px;
 }
 
-.link:hover {
-  text-decoration: underline;
+.statValue {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 3px;
+}
+
+.logoutBtn {
+  width: 100%;
+  padding: 13px 0;
+  border-radius: 13px;
+  border: none;
+  background: var(--red-ink);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 14.5px;
+  cursor: pointer;
+  font-family: inherit;
 }

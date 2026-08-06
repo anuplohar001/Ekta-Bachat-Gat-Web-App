@@ -1,0 +1,55 @@
+import { MonthlyReportRow } from '../constants/mockData';
+
+export const REPORT_TYPES = ['जमाखर्च', 'तेरीज पत्रक', 'सर्व रीपोर्ट'] as const;
+
+export type ReportType = typeof REPORT_TYPES[number];
+
+export type ColumnKey =
+  | 'sr'
+  | 'name'
+  | 'saving'
+  | 'repay'
+  | 'fee'
+  | 'penalty'
+  | 'total'
+  | 'loaned'
+  | 'totSavings'
+  | 'totLoan'
+  | 'totRepay'
+  | 'balance'
+  | 'totFee'
+  | 'totPenalty';
+
+export const COLUMNS: { key: ColumnKey; label: string }[] = [
+  { key: 'sr', label: 'अनू.क्र.' },
+  { key: 'name', label: 'सभासद' },
+  { key: 'saving', label: 'मासिक बचत' },
+  { key: 'repay', label: 'आर्थिक सहाय्य परत फेड' },
+  { key: 'fee', label: 'सेवाशुल्क' },
+  { key: 'penalty', label: 'दंड' },
+  { key: 'total', label: 'एकुण' },
+  { key: 'loaned', label: 'दिलेले आर्थिक सहाय्य' },
+  { key: 'totSavings', label: 'आजपर्यंत एकुण बचत' },
+  { key: 'totLoan', label: 'एकुण आर्थिक सहाय्य' },
+  { key: 'totRepay', label: 'एकुण परतफेड' },
+  { key: 'balance', label: 'आर्थिक सहाय्य बाकी' },
+  { key: 'totFee', label: 'एकुण सेवाशुल्क' },
+  { key: 'totPenalty', label: 'एकुण दंड' },
+];
+
+export const COLUMN_SET: Record<ReportType, ColumnKey[]> = {
+  जमाखर्च: ['sr', 'name', 'saving', 'repay', 'fee', 'penalty'],
+  'तेरीज पत्रक': ['sr', 'name', 'totSavings', 'totLoan', 'totRepay', 'balance', 'totFee', 'totPenalty'],
+  'सर्व रीपोर्ट': COLUMNS.map((c) => c.key),
+};
+
+export function renderCell(row: MonthlyReportRow, col: ColumnKey) {
+  switch (col) {
+    case 'name':
+      return row.name;
+    case 'saving':
+      return row.saving;
+    default:
+      return row.total.toLocaleString('en-IN');
+  }
+}

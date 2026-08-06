@@ -1,0 +1,86 @@
+.dropdownWrap {
+  position: relative;
+  flex: 1 1 50%;
+  min-width: 0;
+  display: flex;
+}
+
+.filterBtn {
+  flex: 1;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  padding: 7px 12px;
+  background: var(--gold-pale);
+  color: inherit;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.filterBtn:active {
+  transform: scale(0.96);
+}
+
+.filterBtnOpen {
+  background: var(--cream-2);
+  border-color: var(--gold);
+}
+
+.filterBtnText {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--gold-pale-text);
+  white-space: nowrap;
+}
+
+.dropdownOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: var(--white);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  box-shadow: 0 10px 20px rgba(20, 36, 28, 0.16);
+  padding: 6px;
+  max-height: 260px;
+  max-width: 150px;
+  overflow-y: auto;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dropdownItem {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 9px 8px;
+  border: none;
+  background: none;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.dropdownItemActive {
+  background: var(--gold-pale);
+  color: var(--gold-dark-text);
+}

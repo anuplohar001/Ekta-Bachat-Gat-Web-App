@@ -43,6 +43,26 @@ export const colors = {
   redTint: '#FDEAEA',    // background of the दंड (penalty) chip
   cardBg: '#FFFFFF', 
 
+  // Premium palette for stat cards
+  statSavingsBg: '#EAF3EE',
+  statSavingsText: '#379b67',
+  statLoanBg: '#EDF0FA',
+  statLoanText: '#20a3f0ce',
+  statRepayBg: '#E8F4F3',
+  statRepayText: '#4b7c77',
+  statBalanceBg: '#EEEAFB',
+  statBalanceText: '#574388bb',
+  statFeeBg: '#FBF3E6',
+  statFeeText: '#9A6A1F',
+  statPenaltyBg: '#FBECEA',
+  statPenaltyText: '#fd6750e0',
+  statInterestBg: '#F3EDF7',
+  statInterestText: '#6b3fa0c4',
+  statGstBg: '#F8EEE9',
+  statGstText: '#8a4a2ebe',
+  statPendingBg: '#F7E7E5',
+  statPendingText: '#976c6c',
+
 } as const;
 
 export type ColorKey = keyof typeof colors;

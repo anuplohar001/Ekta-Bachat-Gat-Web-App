@@ -1,7 +1,7 @@
 /* Container strictly enforcing 90vw and 90vh */
 .table-container {
-    width: 90vw;
-    height: 60vh;
+    width: 94vw;
+    height: 55vh;
     overflow: auto;
     position: relative;
     -webkit-overflow-scrolling: touch;
@@ -71,13 +71,14 @@
 }
 
 .body-cell {
-    padding: 13px 18px;
-    font-size: 13.5px;
+    padding: 8px 18px;
+    font-size: 15.5px;
     color: var(--text, #000);
     text-align: right;
     white-space: nowrap;
     z-index: 1;
     position: relative;
+    background-color: #fbf7ec;
     border-right: 1px solid #e0e0e0;
 }
 
@@ -123,7 +124,7 @@
 
 .footer-cell {
     padding: 11px 10px;
-    font-size: 13.5px;
+    font-size: 15.5px;
     color: var(--text, #000);
     text-align: right;
     font-weight: 800;

@@ -1,0 +1,12 @@
+.headerTop {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.headerTitle {
+  font-size: 22px;
+  font-weight: 600;
+  color: #fbf7ec;
+}
