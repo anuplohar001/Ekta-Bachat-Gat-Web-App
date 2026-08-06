@@ -1,0 +1,130 @@
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 100;
+}
+
+.modalCard {
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  padding: 20px;
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modalHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.modalClose {
+  font-size: 16px;
+  color: var(--text-muted);
+  padding: 0 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.dropdownRow {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.inputWrap {
+  margin-bottom: 20px;
+}
+
+.fieldInput {
+  width: 100%;
+  border: 1.4px solid var(--input-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 15px;
+  color: var(--text);
+  background-color: var(--white);
+  outline: none;
+}
+
+.fieldInput:focus {
+  border-color: var(--gold);
+}
+
+.cancelBtn,
+.saveBtn {
+  flex: 1;
+  padding: 11px 0;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.cancelBtn {
+  background: var(--cream-2);
+  border: 1px solid var(--chip-inactive-border);
+  color: var(--text-muted);
+}
+
+.saveBtn {
+  background: var(--gold);
+  border: none;
+  color: #2b2405;
+  box-shadow: 0 6px 10px rgba(201, 162, 39, 0.55);
+}
+
+.viewBtn,
+.downloadBtn {
+  flex: 1;
+  padding: 11px 0;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.viewBtn:active,
+.downloadBtn:active {
+  transform: scale(0.97);
+}
+
+.viewBtn {
+  background: var(--forest);
+  border: none;
+  color: var(--cream-2);
+}
+
+.downloadBtn {
+  background: var(--gold);
+  border: none;
+  color: #2b2405;
+  box-shadow: 0 6px 10px rgba(201, 162, 39, 0.55);
+}

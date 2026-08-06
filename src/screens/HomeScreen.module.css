@@ -41,12 +41,13 @@
   margin: 0;
   font-weight: 700;
   color: var(--ink);
-  line-height: 1.2;
+  line-height: 1.5;
   text-align: center;
+  text-wrap: nowrap;
 }
 
 .sub {
-  margin-top: 4px;
+  /* margin-top: 4px; */
   font-size: 10px;
   font-weight: 600;
   color: var(--forest);
@@ -105,14 +106,14 @@
 
 .statCard {
   flex: 1;
-  /* padding: 8px; */
+  padding: 10px;
   text-align: center;
 }
 
 .statLabel {
   font-size: 18.5px;
-  color: var(--text-dark);
-  font-weight: 600;
+  color: var(--text-muted);
+  font-weight: 500;
   margin-bottom: 0px;
   /* line-height: .2; */
 }
@@ -121,6 +122,7 @@
   font-size: 18px;
   font-weight: 800;
   margin-top: 0px;
+  margin-bottom: 0px;
   color: var(--ink);
 }
 
@@ -136,6 +138,8 @@
   gap: 10px;
   /* margin-top: 2px; */
   margin-bottom: 12px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--paper-line);
 }
 
 .quickActions .quickBox {
@@ -143,9 +147,9 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 16px 8px;
+  padding: 8px;
   border-radius: 15px;
-  min-height: 86px;
+  /* min-height: 86px; */
   box-shadow: 0 3px 8px rgba(20, 36, 28, 0.1);
 }
 

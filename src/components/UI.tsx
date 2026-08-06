@@ -5,11 +5,12 @@ import styles from './UI.module.css';
 export interface CardProps {
   className?: string;
   style?: React.CSSProperties;
+  onClick?: () => void;
   children?: ReactNode;
 }
 
-export const Card: React.FC<CardProps> = ({ className, style, children }) => (
-  <div className={className ? `${styles.card} ${className}` : styles.card} style={style}>
+export const Card: React.FC<CardProps> = ({ className, style, onClick, children }) => (
+  <div className={className ? `${styles.card} ${className}` : styles.card} style={style} onClick={onClick}>
     {children}
   </div>
 );

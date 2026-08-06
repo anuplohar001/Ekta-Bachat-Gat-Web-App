@@ -1,0 +1,103 @@
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 100;
+}
+
+.modalCard {
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  padding: 20px;
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.memberName {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.fieldWrap {
+  margin-bottom: 12px;
+  margin-top: 12px;
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.fieldGrid .fieldWrap {
+  margin-bottom: 0;
+}
+
+.fieldLabel {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.fieldInput {
+  width: 100%;
+  border: 1.4px solid var(--input-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 15px;
+  color: var(--text);
+  background-color: var(--white);
+  outline: none;
+}
+
+.fieldInput:focus {
+  border-color: var(--gold);
+}
+
+.fieldInput:disabled {
+  background-color: var(--cream-2);
+  color: var(--gold-pale-text);
+  font-weight: 700;
+  cursor: not-allowed;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.cancelBtn,
+.saveBtn {
+  flex: 1;
+  padding: 11px 0;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.cancelBtn {
+  background: var(--cream-2);
+  border: 1px solid var(--chip-inactive-border);
+  color: var(--text-muted);
+}
+
+.saveBtn {
+  background: var(--gold);
+  border: none;
+  color: #2b2405;
+  box-shadow: 0 6px 10px rgba(201, 162, 39, 0.55);
+}

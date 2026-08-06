@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import ScreenShell from '../components/ScreenShell';
-import { Card, PillButton, Chip } from '../components/UI';
+import { Card } from '../components/UI';
 import { EntryRow, monthlyEntry } from '../constants/mockData';
 import colors from '../constants/colors';
-import { ChevronDownIcon } from '../components/Icons';
+import Dropdown from '../components/Dropdown';
+import { MONTHS } from '../constants/monthOptions';
 import styles from './EntryScreen.module.css';
+import { Edit3 } from 'react-feather';
+import EntryModal, { EntryFormValues } from './EntryModal';
+
+const [INITIAL_MONTH, INITIAL_YEAR] = monthlyEntry.month.split(' ');
 
 interface FieldBoxProps {
   label: string;
@@ -22,17 +27,21 @@ function FieldBox({ label, value }: FieldBoxProps) {
   );
 }
 
-function EntryRowCard({ row }: { row: EntryRow }) {
+function EntryRowCard({ row, onPress }: { row: EntryRow; onPress?: () => void }) {
   const isDone = row.status === 'done';
   return (
     <Card
       className={styles.rowCard}
-      style={{ borderLeft: `3px solid ${isDone ? colors.successGreen : colors.gold}` }}
+      style={{
+        borderLeft: `3px solid ${isDone ? colors.successGreen : colors.gold}`,
+        cursor: 'pointer',
+      }}
+      onClick={onPress}
     >
       <div className={styles.rowTop}>
         <span className={styles.rowName}>{row.name}</span>
         <div className={isDone ? `${styles.statusPill} ${styles.statusPillDone}` : `${styles.statusPill} ${styles.statusPillTodo}`}>
-          <span className={styles.statusText} style={{ color: isDone ? colors.successText : colors.goldDarkText }}>
+          <span className={styles.statusText} style={{ color: isDone ? colors.successText : colors.redInk }}>
             {isDone ? 'पूर्ण' : 'प्रविष्ट करा'}
           </span>
         </div>
@@ -61,8 +70,18 @@ function EntryRowCard({ row }: { row: EntryRow }) {
             </div>
           </div>
           <div className={styles.totalRow}>
-            <span className={styles.totalLabel}>एकुण</span>
-            <span className={styles.totalValue}>₹{(row.total ?? 0).toLocaleString('en-IN')}</span>
+            <div>
+              <span className={styles.totalLabel}>दिलेले आर्थिक सहाय्य :{" "}</span>
+              <span className="text-primary" style={{ fontWeight: 600 }}>
+                ₹{(row.total ?? 0).toLocaleString('en-IN')}
+              </span> 
+            </div>
+            <div>
+              <span className={styles.totalLabel}>एकुण : {" "}</span>
+              <span className="text-success" style={{ fontWeight: 600 }}>
+                ₹{(row.total ?? 0).toLocaleString('en-IN')}
+              </span>
+            </div>
           </div>
         </>
       ) : (
@@ -78,20 +97,47 @@ function EntryRowCard({ row }: { row: EntryRow }) {
 }
 
 export default function EntryScreen() {
+  const [entryRow, setEntryRow] = useState<EntryRow | null>(null);
+  const [month, setMonth] = useState<string>(INITIAL_MONTH);
+
+  const initialValues = useMemo<EntryFormValues>(
+    () =>
+      entryRow && entryRow.status === 'done'
+        ? {
+            saving: entryRow.saving != null ? String(entryRow.saving) : '',
+            repay: entryRow.repay != null ? String(entryRow.repay) : '',
+            service: entryRow.service != null ? String(entryRow.service) : '',
+            penalty: entryRow.penalty != null ? String(entryRow.penalty) : '',
+            aid: entryRow.total != null ? String(entryRow.total) : '',
+          }
+        : {},
+    [entryRow]
+  );
+
+  const handleSave = (values: EntryFormValues) => {
+    console.log('save entry', values);
+    setEntryRow(null);
+  };
+
   return (
-    <ScreenShell
-      header={
+    <>
+      <ScreenShell
+        header={
         <div className={styles.headerTop}>
-          <div>
-            <h1 className={styles.headerTitle}>मासिक नोंद</h1>
-            <p className={styles.headerSub}>दिनांक {monthlyEntry.asOf} प्रमाणे</p>
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+            <Edit3 color={colors.cream2} className="me-2" />
+            <div>
+              <h1 className={styles.headerTitle}>मासिक नोंद</h1>
+              <p className={styles.headerSub}>दिनांक {monthlyEntry.asOf} प्रमाणे</p>
+            </div>
           </div>
-          <Chip style={{ backgroundColor: colors.goldPale, borderColor: colors.gold }}>
-            <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-              <span style={{ color: colors.goldPaleText, fontWeight: 600, fontSize: 11.5 }}>{monthlyEntry.month}</span>
-              <ChevronDownIcon />
-            </span>
-          </Chip>
+          <Dropdown
+            options={MONTHS}
+            value={month}
+            label={`${month} ${INITIAL_YEAR}`}
+            onSelect={setMonth}
+            style={{ marginTop: 20, flex: '0 1 auto' }}
+          />
         </div>
       }
       stickyBar={
@@ -107,12 +153,19 @@ export default function EntryScreen() {
           </div>
         </Card>
       }
-      stickyBottom={<PillButton>{monthlyEntry.pending} सभासदांची नोंद बाकी आहे</PillButton>}
-      contentContainerStyle={{ paddingBottom: 160 }}
+      contentContainerStyle={{ paddingBottom: 70 }}
     >
       {monthlyEntry.rows.map((row) => (
-        <EntryRowCard key={row.id} row={row} />
+        <EntryRowCard key={row.id} row={row} onPress={() => setEntryRow(row)} />
       ))}
     </ScreenShell>
+      <EntryModal
+        visible={!!entryRow}
+        memberName={entryRow?.name ?? ''}
+        initialValues={initialValues}
+        onCancel={() => setEntryRow(null)}
+        onSave={handleSave}
+      />
+    </>
   );
 }

@@ -52,10 +52,9 @@ export default function MonthDetailModal({ visible, data, onClose }: MonthDetail
         <div>
           <p className={styles.modalSectionTitle}>जमाखर्च</p>
           <div className={styles.modalGrid}>
-            <StatBox label="एकूण" value={`₹${data.total?.toLocaleString('en-IN')}`} boxStyle={styles.bgBlue} />
-            <StatBox label="दिलेले आर्थिक सहाय्य" value={`₹${0}`} boxStyle={styles.bgPurple} />
             <StatBox label="मासिक बचत" value={data.saving} boxStyle={styles.bgGreen} />
-            <StatBox label="परतफेड" value={data.repay} boxStyle={styles.bgTeal} />
+            <StatBox label="आर्थिक सहाय्य परतफेड" value={data.repay} boxStyle={styles.bgTeal} />
+            <StatBox label="दिलेले आर्थिक सहाय्य" value={`₹${0}`} boxStyle={styles.bgPurple} />
             <StatBox label="सेवाशुल्क" value={data.service} boxStyle={styles.bgYellow} />
             <StatBox
               label="दंड"
@@ -63,6 +62,7 @@ export default function MonthDetailModal({ visible, data, onClose }: MonthDetail
               boxStyle={styles.bgRed}
               valueStyle={data.penalty ? { color: colors.redInk } : undefined}
             />
+            <StatBox label="एकूण" value={`₹${data.total?.toLocaleString('en-IN')}`} boxStyle={styles.bgBlue} />
           </div>
         </div>
 
