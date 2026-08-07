@@ -78,7 +78,7 @@ export default function MemberDetailScreen() {
                   <span className={styles.historyMonth}>{h.month}</span>
                   <div className={styles.totalsGroup}>
                     <div className={styles.totalPair}>
-                      <span className={styles.totalLabel}>एकूण जमाखर्च</span>
+                      <span className={styles.totalLabel}>एकूण</span>
                       <span className={styles.totalValue}>₹{h.total.toLocaleString('en-IN')}</span>
                     </div>
                     <div className={styles.totalPair}>

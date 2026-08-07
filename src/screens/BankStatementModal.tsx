@@ -5,11 +5,12 @@ interface BankStatementModalProps {
   visible: boolean;
   onClose: () => void;
   title: string;
+  icon?: ReactNode;
   children?: ReactNode;
   footer?: ReactNode;
 }
 
-export default function BankStatementModal({ visible, onClose, title, children, footer }: BankStatementModalProps) {
+export default function BankStatementModal({ visible, onClose, title, icon, children, footer }: BankStatementModalProps) {
   useEffect(() => {
     if (!visible) return;
     const onKey = (e: KeyboardEvent) => {
@@ -25,7 +26,10 @@ export default function BankStatementModal({ visible, onClose, title, children, 
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>{title}</h2>
+          <div className={styles.modalTitleWrap}>
+            {icon && <span className={styles.modalTitleIcon}>{icon}</span>}
+            <h2 className={styles.modalTitle}>{title}</h2>
+          </div>
           <button type="button" className={styles.modalClose} onClick={onClose}>
             ✕
           </button>
