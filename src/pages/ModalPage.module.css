@@ -67,8 +67,11 @@
   margin-top: 14px;
   padding: 4px;
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
+  min-height: 200px;
 }
 
 .statCol {

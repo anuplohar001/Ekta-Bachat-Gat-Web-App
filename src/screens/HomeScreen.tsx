@@ -1,17 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import colors from '../constants/colors';
 import { dashboardStats, groupInfo } from '../constants/mockData';
-import { Card, PillButton, SectionTitle } from '../components/UI';
-import { RulesIcon, CameraIcon, EntryIcon, ReportIcon, MembersIcon } from '../components/Icons';
+import { Card, PillButton } from '../components/UI';
+import { RulesIcon, CameraIcon, EntryIcon, ReportIcon } from '../components/Icons';
 import ScreenShell from '../components/ScreenShell';
 import Dropdown from '../components/Dropdown';
 import BankStatementModal from './BankStatementModal';
-import { MONTHS, YEARS } from '../constants/monthOptions';
+import { YEARS } from '../constants/monthOptions';
 import bsStyles from './BankStatementModal.module.css';
 import styles from './HomeScreen.module.css';
-import logo from "../assets/logo.png";
-import { Book, Users } from 'react-feather';
+import logo from "../../public/logo.png";
+import {
+  Book,
+  PieChart,
+  Users,
+  Database,
+  DollarSign,
+  Clock,
+  TrendingUp,
+  Percent,
+  ChevronDown,
+  Image,
+  ChevronRight,
+  Plus,
+} from 'react-feather';
 
 
 
@@ -23,31 +36,17 @@ interface StatCardProps {
   sub?: string;
   subColor?: string;
   bgColor?: string;
+  icon?: React.ReactNode;
   onPress?: () => void;
 }
 
-function StatCard({ label, value, labelColor, valueColor, bgColor, onPress }: StatCardProps) {
+function StatHorizontalCard({ label, value, labelColor, valueColor, bgColor, icon }: StatCardProps) {
   return (
     <Card
-      className={styles.statCard}
-      style={{ backgroundColor: bgColor, cursor: onPress ? 'pointer' : undefined }}
-      onClick={onPress}
+      className={`${styles.statCard} ${styles.statHorizontalCard}`}
+      style={bgColor ? { background: bgColor } : undefined}
     >
-      <span className={styles.statLabel} style={{ fontWeight: 510, ...(labelColor ? { color: labelColor } : {}) }}>
-        {label} <br />
-      </span>
-      <span
-        className={styles.statValue}
-        style={{ fontWeight: 510, ...(valueColor ? { color: valueColor } : {}) }}
-      >
-        {value}
-      </span>
-    </Card>
-  );
-}
-function StatHorizontalCard({ label, value, labelColor, valueColor, bgColor }: StatCardProps) {
-  return (
-    <Card className={styles.statCard} style={bgColor ? { backgroundColor: bgColor } : undefined}>
+      {icon && <span className={styles.statIcon}>{icon}</span>}
       <span className={styles.statLabel} style={{ fontWeight: 510, ...(labelColor ? { color: labelColor } : {}) }}>
         {label}: &nbsp;
       </span>
@@ -72,177 +71,216 @@ export default function HomeScreen() {
   const [bankYear, setBankYear] = useState('2026');
   const [interestInput, setInterestInput] = useState('');
   const [gstInput, setGstInput] = useState('');
+  const [showScrollHint, setShowScrollHint] = useState(true);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.scrollY > 10) setShowScrollHint(false);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
   return (
     <>
       <ScreenShell
         // scroll={false}
-      headerBackground={colors.cream}
-      headerStyle={{ paddingBottom: 10, zIndex: 10, position: 'relative' }}
-      header={
-        <div className={styles.profileSection}>
-          <div className={styles.avatar}>
-            <img src={logo} alt="Logo" className={styles.avatarImage} />
+        headerBackground={colors.cream}
+        contentContainerStyle={{ paddingTop: 0 }}
+        headerStyle={{
+          zIndex: 10,
+          position: 'relative',
+          padding: 5,
+          paddingBottom: 60,
+          background: 'linear-gradient(135deg, var(--forest) 20%, var(--forest-deep) 80%)',
+          borderRadius: '50% 50% / 0 0 90px 90px',
+        }}
+        header={
+          <div className="position-relative">
+            <div className={styles.profileSection}>
+              <div className={styles.avatar}>
+                <img src={logo} alt="Logo" className={styles.avatarImage} />
+              </div>
+              <div className={styles.profileInfo}>
+                <h1 className={styles.name}>{groupInfo.name}</h1>
+                <span className={styles.address}>बँक ऑफ {maharashtra}, खाते क्र.: 60350336557</span>
+                <span className={styles.address}>मु. कुरुळी पो. आंधळगाव, ता.शिरूर जि. पुणे</span>
+                <span className={styles.address}>ईमेल : ektayuwa@gmail.com</span>
+                <span className={styles.sub}>स्थापना दि. : 15 डिसेंबर 2019</span>
+              </div>
+            </div>
+            <div className={styles.totalCard}>
+              <div className={styles.totalItem}>
+                <span className={styles.totalIcon}>
+                  <Database size={18} color={colors.successGreen} />
+                </span>
+                <span className={styles.totalLabel}>एकूण बचत</span>
+                <span className={styles.totalValue}>{dashboardStats.totalSavings}</span>
+              </div>
+              <div className={styles.totalDivider} />
+              <div className={styles.totalItem}>
+                <span className={styles.totalIcon}>
+                  <DollarSign size={18} color={colors.statLoanText} />
+                </span>
+                <span className={styles.totalLabel}>एकूण आर्थिक सहाय्य</span>
+                <span className={styles.totalValue}>{dashboardStats.totalLoanDue}</span>
+              </div>
+            </div>
           </div>
-          <div className={styles.profileInfo}>
-            <h1 className={styles.name}>{groupInfo.name}</h1>
-            <span className={styles.address}>बँक ऑफ {maharashtra}, खाते क्र.: 60350336557</span>
-            <span className={styles.address}>मु. कुरुळी पो. आंधळगाव, ता.शिरूर जि. पुणे</span>
-            <span className={styles.sub}>स्थापना दि. : 15 डिसेंबर 2019</span>
+        }
+        stickyBar={
+          <div className={styles.quickActions}>
+            <PillButton
+              className={styles.quickBox}
+              style={{ background: colors.goldPaleGrad }}
+              textStyle={{ color: colors.goldDarkText, fontWeight: 510 }}
+              onPress={() => navigate('/rules')}
+              icon={<RulesIcon size={22} color={colors.goldDarkText} />}
+            >
+              नियमावली
+            </PillButton>
+            <PillButton
+              className={styles.quickBox}
+              style={{ background: colors.photoGrad }}
+              textStyle={{ color: colors.goldDarkText, fontWeight: 510 }}
+              onPress={() => navigate('/photo')}
+              icon={<Image size={22} color={colors.goldDarkText} />}
+            >
+              फोटो
+            </PillButton>
+            <PillButton
+              className={styles.quickBox}
+              style={{ background: colors.successBgGrad }}
+              textStyle={{ color: colors.successText, fontWeight: 510 }}
+              onPress={() => navigate('/report', { state: { reportType: 'जमाखर्च' } })}
+              icon={<EntryIcon size={22} color={colors.successText} />}
+            >
+              जमाखर्च
+            </PillButton>
+            <PillButton
+              className={styles.quickBox}
+              style={{ background: colors.creamGrad }}
+              textStyle={{ color: colors.goldPaleText, fontWeight: 510 }}
+              onPress={() => navigate('/report', { state: { reportType: 'तेरीज पत्रक' } })}
+              icon={<ReportIcon size={22} color={colors.goldPaleText} />}
+            >
+              तेरीज पत्रक
+            </PillButton>
+            <PillButton
+              className={styles.quickBox}
+              style={{ background: colors.redTintGrad }}
+              textStyle={{ color: colors.redInk, fontWeight: 510 }}
+              onPress={() => navigate('/members')}
+              icon={<Users size={22} color={colors.redInk} />}
+            >
+              सभासद यादी
+            </PillButton>
+            <PillButton
+              className={styles.quickBox}
+              style={{ background: colors.blueTintGrad }}
+              textStyle={{ color: colors.blueInk, fontWeight: 510 }}
+              onPress={() => setBankStatementOpen(true)}
+              icon={<Book size={20} color={colors.blueInk} />}
+            >
+
+              बँक स्टेटमेंट
+            </PillButton>
+            <PillButton
+              className={`${styles.quickBox} ${styles.quickBoxFull}`}
+              style={{ background: colors.forest }}
+              textStyle={{ color: colors.cream, fontWeight: 510, textAlign: 'left' }}
+              // onPress={() => setBankStatementOpen(true)}
+              icon={<ChevronRight size={21} color={colors.cream} />}
+            >
+
+              <Plus size={18} color={colors.cream} /> {" "}
+               कर्ज मागणी
+            </PillButton>
           </div>
-        </div>
-      }
-    >
-      <div className={styles.quickActions}>
-        <PillButton
-          className={styles.quickBox}
-          style={{ backgroundColor: colors.goldPale }}
-          textStyle={{ color: colors.goldDarkText, fontWeight: 510 }}
-          onPress={() => navigate('/rules')}
-          icon={<RulesIcon size={22} color={colors.goldDarkText} />}
-        >
-          नियमावली
-        </PillButton>
-        <PillButton
-          className={styles.quickBox}
-          style={{ backgroundColor: "#ffe5c6" }}
-          textStyle={{ color: colors.goldDarkText, fontWeight: 510 }}
-          onPress={() => navigate('/photo')}
-          icon={<CameraIcon size={22} color={colors.goldDarkText} />}
-        >
-          फोटो
-        </PillButton>
-        <PillButton
-          className={styles.quickBox}
-          style={{ backgroundColor: colors.successBg }}
-          textStyle={{ color: colors.successText, fontWeight: 510 }}
-          onPress={() => navigate('/report', { state: { reportType: 'जमाखर्च' } })}
-          icon={<EntryIcon size={22} color={colors.successText} />}
-        >
-          जमाखर्च
-        </PillButton>
-        <PillButton
-          className={styles.quickBox}
-          style={{ backgroundColor: colors.cream }}
-          textStyle={{ color: colors.goldPaleText, fontWeight: 510 }}
-          onPress={() => navigate('/report', { state: { reportType: 'तेरीज पत्रक' } })}
-          icon={<ReportIcon size={22} color={colors.goldPaleText} />}
-        >
-          तेरीज पत्रक
-        </PillButton>
-        <PillButton
-          className={styles.quickBox}
-          style={{ backgroundColor: colors.redTint }}
-          textStyle={{ color: colors.redInk, fontWeight: 510 }}
-          onPress={() => navigate('/members')}
-          icon={<Users size={22} color={colors.redInk} />}
-        >
-          सभासद यादी
-        </PillButton>
-        <PillButton
-          className={styles.quickBox}
-          style={{ backgroundColor: colors.blueTint }}
-          textStyle={{ color: colors.blueInk, fontWeight: 510 }}
-          onPress={() => setBankStatementOpen(true)}
-          icon={<Book size={20} color={colors.blueInk} />}
-        >
-
-          बँक स्टेटमेंट
-        </PillButton>
-      </div>
-
-      <div className={styles.statGrid}>
-        <div className="d-flex flex-column gap-2">
+        }
+      >
+        <div className={styles.statGrid}>
+          <Card className={styles.fourGrid}>
+            <div className={styles.fourCell}>
+              <span className={styles.fourLabel}>एकुण परत फेड</span>
+              <span className={styles.fourValue} style={{ color: colors.statRepayText }}>
+                {dashboardStats.totalSavings}
+              </span>
+            </div>
+            <div className={styles.fourCell}>
+              <span className={styles.fourLabel}>आर्थिक सहाय्य बाकी</span>
+              <span className={styles.fourValue} style={{ color: colors.statBalanceText }}>
+                {dashboardStats.totalLoanDue}
+              </span>
+            </div>
+            <div className={styles.fourCell}>
+              <span className={styles.fourLabel}>एकुण सेवाशुल्क</span>
+              <span className={styles.fourValue} style={{ color: colors.statFeeText }}>
+                {dashboardStats.totalServiceFee}
+              </span>
+            </div>
+            <div className={styles.fourCell}>
+              <span className={styles.fourLabel}>एकुण दंड</span>
+              <span className={styles.fourValue} style={{ color: colors.statPenaltyText }}>
+                {dashboardStats.totalPenalty}
+              </span>
+            </div>
+          </Card>
           <StatHorizontalCard
-            label="आजपर्यंत एकूण बचत"
-            value={dashboardStats.totalSavings}
-            bgColor={colors.statSavingsBg}
-            // labelColor={colors.statSavingsText}
-            valueColor={colors.statSavingsText}
-            subColor={colors.statSavingsText}
+            label="ऑगस्ट 26 "
+            value={`${monthProgress.done} / ${monthProgress.total}`}
+            bgColor={colors.statPendingGrad}
+            // labelColor={colors.statPendingText}
+            valueColor={colors.statPendingText}
+            icon={<Clock size={20} color={colors.statPendingText} />}
           />
-          <StatHorizontalCard
-            label="एकुण आर्थिक सहाय्य"
-            value={dashboardStats.totalLoanDue}
-            bgColor={colors.statLoanBg}
-            // labelColor={colors.statLoanText}
-            valueColor={colors.statLoanText}
-            subColor={colors.statLoanText}
-          />
-        </div>
-        <div className={styles.statRow}>
-          <StatCard
-            label="एकुण परत फेड"
-            value={dashboardStats.totalSavings}
-            bgColor={colors.statRepayBg}
-            // labelColor={colors.statRepayText}
-            valueColor={colors.statRepayText}
-            subColor={colors.statRepayText}
-          />
-          <StatCard
-            label="आर्थिक सहाय्य बाकी"
-            value={dashboardStats.totalLoanDue}
-            bgColor={colors.statBalanceBg}
-            // labelColor={colors.statBalanceText}
-            valueColor={colors.statBalanceText}
-            subColor={colors.statBalanceText}
-          />
-        </div>
-        <div className={styles.statRow}>
-          <StatCard
-            label="एकुण सेवाशुल्क"
-            value={dashboardStats.totalServiceFee}
-            bgColor={colors.statFeeBg}
-            // labelColor={colors.statFeeText}
-            valueColor={colors.statFeeText}
-          />
-          <StatCard
-            label="एकुण दंड"
-            value={dashboardStats.totalPenalty}
-            bgColor={colors.statPenaltyBg}
-            // labelColor={colors.statPenaltyText}
-            valueColor={colors.statPenaltyText}
-          />
-        </div>
-        <StatHorizontalCard
-          label="ऑगस्ट 26 प्रलंबित"
-          value={`${monthProgress.done} / ${monthProgress.total}`}
-          bgColor={colors.statPendingBg}
-          // labelColor={colors.statPendingText}
-          valueColor={colors.statPendingText}
-        />
-        <div className={styles.statRow}>
-          <StatCard
-            label="बँक व्याज"
-            value={dashboardStats.totalServiceFee}
-            bgColor={colors.statInterestBg}
-            valueColor={colors.statInterestText}
-            onPress={() => setBankInterestOpen(true)}
-          />
-          <StatCard
-            label="बँक जी.एस.टी"
-            value={dashboardStats.totalPenalty}
-            bgColor={colors.statGstBg}
-            valueColor={colors.statGstText}
-            onPress={() => setBankGstOpen(true)}
-          />
-        </div>
+          <Card className={styles.twoGrid}>
+            <button
+              type="button"
+              className={styles.twoCell}
+              onClick={() => setBankInterestOpen(true)}
+            >
+              <span className={styles.twoLabel}>बँक व्याज</span>
+              <span className={styles.twoValue} style={{ color: colors.statInterestText }}>
+                {dashboardStats.totalServiceFee}
+              </span>
+            </button>
+            <button
+              type="button"
+              className={styles.twoCell}
+              onClick={() => setBankGstOpen(true)}
+            >
+              <span className={styles.twoLabel}>बँक जी.एस.टी</span>
+              <span className={styles.twoValue} style={{ color: colors.statGstText }}>
+                {dashboardStats.totalPenalty}
+              </span>
+            </button>
+          </Card>
 
-      </div>
-    </ScreenShell>
+        </div>
+      </ScreenShell>
+      {showScrollHint && (
+        <div className={styles.scrollHint}>
+          <span className={styles.scrollHintIcon}>
+            <ChevronDown size={22} color={colors.forest} />
+          </span>
+          <span className={styles.scrollHintText}>खाली स्क्रोल करा</span>
+        </div>
+      )}
       <BankStatementModal
         visible={bankStatementOpen}
         onClose={() => setBankStatementOpen(false)}
         title="बँक स्टेटमेंट"
+        icon={<Book size={20} color={colors.blueInk} />}
       >
         <div className={bsStyles.dropdownRow}>
-          <Dropdown options={MONTHS} value={bankMonth} onSelect={setBankMonth} />
+
           <Dropdown options={YEARS} value={bankYear} onSelect={setBankYear} />
         </div>
         <div className={bsStyles.actions}>
-          <button type="button" className={bsStyles.viewBtn} onClick={() => {}}>
+          <button type="button" className={bsStyles.viewBtn} onClick={() => { }}>
             View PDF
           </button>
-          <button type="button" className={bsStyles.downloadBtn} onClick={() => {}}>
+          <button type="button" className={bsStyles.downloadBtn} onClick={() => { }}>
             Download PDF
           </button>
         </div>
@@ -252,6 +290,7 @@ export default function HomeScreen() {
         visible={bankInterestOpen}
         onClose={() => setBankInterestOpen(false)}
         title="बँक व्याज"
+        icon={<TrendingUp size={20} color={colors.statInterestText} />}
       >
         <div className={bsStyles.inputWrap}>
           <input
@@ -284,6 +323,7 @@ export default function HomeScreen() {
         visible={bankGstOpen}
         onClose={() => setBankGstOpen(false)}
         title="बँक जी.एस.टी"
+        icon={<Percent size={20} color={colors.statGstText} />}
       >
         <div className={bsStyles.inputWrap}>
           <input

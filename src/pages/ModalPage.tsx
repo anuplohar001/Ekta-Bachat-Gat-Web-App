@@ -42,30 +42,7 @@ export default function ModalPage() {
       </Card>
 
       <Card className={styles.statStrip}>
-        {[
-          { label: 'आजपर्यंत एकुण बचत', value: member.totalSaving },
-          { label: 'एकुण आर्थिक सहाय्य', value: member.totalAid },
-          { label: 'एकुण परतफेड', value: member.totalRepay },
-          { label: 'आर्थिक सहाय्य बाकी', value: member.loanDue, color: colors.redInk },
-          { label: 'एकुण सेवाशुल्क', value: member.totalService },
-          { label: 'एकुण दंड', value: member.totalPenalty, color: colors.goldDarkText },
-        ].map((s, idx) => (
-          <div
-            key={idx}
-            className={[
-              styles.statCol,
-              idx % 3 !== 0 ? styles.statColDivider : '',
-              idx > 2 ? styles.statColRowDivider : '',
-            ]
-              .filter(Boolean)
-              .join(' ')}
-          >
-            <p className={styles.statLabel}>{s.label}</p>
-            <p className={styles.statValue} style={s.color ? { color: s.color } : undefined}>
-              {s.value}
-            </p>
-          </div>
-        ))}
+        <span className="text-muted">आधार कार्ड</span>
       </Card>
     </ScreenShell>
   );

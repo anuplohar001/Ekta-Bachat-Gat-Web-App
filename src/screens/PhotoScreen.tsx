@@ -3,7 +3,7 @@ import ScreenShell from '../components/ScreenShell';
 import colors from '../constants/colors';
 import { Camera } from 'react-feather';
 import styles from './PhotoScreen.module.css';
-import icon from '../assets/logo.png';
+import icon from '../../public/logo.png';
 
 export default function PhotoScreen() {
   return (

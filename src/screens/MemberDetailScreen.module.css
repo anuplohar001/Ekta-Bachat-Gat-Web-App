@@ -168,8 +168,8 @@
 .totalPair {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  margin-left: 19px;
+  align-items: start;
+  margin-left: 22px;
   margin-bottom: 4px;
 }
 
