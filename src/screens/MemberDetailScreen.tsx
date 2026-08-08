@@ -1,18 +1,52 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { MemberHistoryEntry, members } from '../constants/mockData';
 import { ChevronLeftIcon } from '../components/Icons';
 import colors from '../constants/colors';
 import { Card, SectionTitle } from '../components/UI';
 import ScreenShell from '../components/ScreenShell';
+import { useMemberDetail } from '../hooks/useMemberDetail';
+import type { MemberHistoryEntry } from '../api/types';
+import { formatJoinedDate, toMarathiMonth } from '../utils/monthMapper';
 import MonthDetailModal from './MonthDetailModal';
 import styles from './MemberDetailScreen.module.css';
+import Loader from '../components/Loader';
+
+const formatINR = (value: number): string => `₹${value.toLocaleString('en-IN')}`;
 
 export default function MemberDetailScreen() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const member = members.find((m) => m.id === id) ?? members[0];
+  const { data: member, loading, error } = useMemberDetail(id);
+
+  const history = useMemo(
+    () => (member ? [...member.history].reverse() : []),
+    [member]
+  );
+
+  const latest = member?.history.reduce<MemberHistoryEntry | null>((best, entry) => {
+    if (!best) return entry;
+    const bestKey = `${best.year}${best.month}`;
+    const entryKey = `${entry.year}${entry.month}`;
+    return entryKey >= bestKey ? entry : best;
+  }, null);
+
   const [selectedMonth, setSelectedMonth] = useState<MemberHistoryEntry | null>(null);
+
+  if (loading && !member) {
+    return (
+      <Loader/>
+    );
+  }
+
+  if (error && !member) {
+    return (
+      <ScreenShell header={<div className={styles.headerRow} />}>
+        <p style={{ color: colors.redInk, fontSize: 15, textAlign: 'center', padding: 24 }}>
+          {error}
+        </p>
+      </ScreenShell>
+    );
+  }
 
   return (
     <ScreenShell
@@ -24,12 +58,12 @@ export default function MemberDetailScreen() {
           </button>
           <div className={styles.profileRow}>
             <div className={styles.avatar}>
-              <span className={styles.avatarText}>{member.id}</span>
+              <span className={styles.avatarText}>{member?.name.trim().charAt(0) ?? ''}</span>
             </div>
             <div>
-              <p className={styles.name}>{member.name}</p>
+              <p className={styles.name}>{member?.name}</p>
               <p className={styles.sub}>
-                सभासद क्र. {member.number} · सामील: {member.joined}
+                सभासद क्र. {member?.number} · सामील: {member ? formatJoinedDate(member.joined) : ''}
               </p>
             </div>
           </div>
@@ -38,12 +72,12 @@ export default function MemberDetailScreen() {
       stickyBar={
         <Card className={styles.statStrip}>
           {[
-            { label: 'आजपर्यंत एकुण बचत', value: member.totalSaving },
-            { label: 'एकुण आर्थिक सहाय्य', value: member.totalAid },
-            { label: 'एकुण परतफेड', value: member.totalRepay },
-            { label: 'आर्थिक सहाय्य बाकी', value: member.loanDue, color: colors.redInk },
-            { label: 'एकुण सेवाशुल्क', value: member.totalService },
-            { label: 'एकुण दंड', value: member.totalPenalty, color: colors.goldDarkText },
+            { label: 'आजपर्यंत एकुण बचत', value: latest ? formatINR(latest.totalSaving) : '—' },
+            { label: 'एकुण आर्थिक सहाय्य', value: latest ? formatINR(latest.totalLoanGiven) : '—' },
+            { label: 'एकुण परतफेड', value: latest ? formatINR(latest.totalRepayed) : '—' },
+            { label: 'आर्थिक सहाय्य बाकी', value: latest ? formatINR(latest.loanDue) : '—', color: colors.redInk },
+            { label: 'एकुण सेवाशुल्क', value: latest ? formatINR(latest.totalInterest) : '—' },
+            { label: 'एकुण दंड', value: latest ? formatINR(latest.totalPenalty) : '—', color: colors.goldDarkText },
           ].map((s, idx) => (
             <div
               key={idx}
@@ -68,61 +102,60 @@ export default function MemberDetailScreen() {
 
       <div className={styles.timeline}>
         <div className={styles.timelineLine} />
-        {member.history.map((h, idx) => (
-          <button key={idx} type="button" className={styles.timelinePress} onClick={() => setSelectedMonth(h)}>
-            <div className={styles.timelineItem}>
-              <div className={h.active ? `${styles.dot} ${styles.dotActive}` : styles.dot} />
-              <Card className={styles.historyCard} style={h.faded ? { opacity: 0.75 } : undefined}>
-                {/* Row 1: month + two totals */}
-                <div className={styles.historyTop}>
-                  <span className={styles.historyMonth}>{h.month}</span>
-                  <div className={styles.totalsGroup}>
-                    <div className={styles.totalPair}>
-                      <span className={styles.totalLabel}>एकूण</span>
-                      <span className={styles.totalValue}>₹{h.total.toLocaleString('en-IN')}</span>
-                    </div>
-                    <div className={styles.totalPair}>
-                      <span className={styles.totalLabel} style={{ color: colors.blueInk }}>
-                        दिलेले आर्थिक सहाय्य
-                      </span>
-                      <span className={styles.totalValue} style={{ color: colors.blueInk }}>
-                        ₹{0}
-                      </span>
+        {history.map((h, idx) => {
+          const isLatest = idx === 0;
+          return (
+            <button key={h.id ?? idx} type="button" className={styles.timelinePress} onClick={() => setSelectedMonth(h)}>
+              <div className={styles.timelineItem}>
+                <div className={isLatest ? `${styles.dot} ${styles.dotActive}` : styles.dot} />
+                <Card className={styles.historyCard}>
+                  <div className={styles.historyTop}>
+                    <span className={styles.historyMonth}>{`${toMarathiMonth(h.month)} ${h.year}`}</span>
+                    <div className={styles.totalsGroup}>
+                      <div className={styles.totalPair}>
+                        <span className={styles.totalLabel}>एकूण</span>
+                        <span className={styles.totalValue}>{formatINR(h.total)}</span>
+                      </div>
+                      <div className={styles.totalPair}>
+                        <span className={styles.totalLabel} style={{ color: colors.blueInk }}>
+                          दिलेले आर्थिक सहाय्य
+                        </span>
+                        <span className={styles.totalValue} style={{ color: colors.blueInk }}>
+                          {formatINR(h.loanGiven)}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Row 2: breakdown, single line, evenly spaced */}
-                {!h.faded && h.saving !== undefined ? (
                   <div className={styles.breakdownRow}>
                     <div className={styles.breakdownItem}>
                       <span className={styles.totalLabel}>बचत</span>
-                      <span className={styles.totalValue}>₹{h.saving}</span>
+                      <span className={styles.totalValue}>{formatINR(h.saving)}</span>
                     </div>
                     <div className={styles.breakdownItem}>
                       <span className={styles.breakdownLabel} style={{ color: colors.gold }}>
                         परतफेड
                       </span>
                       <span className={styles.breakdownValue} style={{ color: colors.gold }}>
-                        ₹{h.repay}
+                        {formatINR(h.repay)}
                       </span>
                     </div>
                     <div className={styles.breakdownItem}>
                       <span className={styles.breakdownLabel}>सेवाशुल्क</span>
-                      <span className={styles.breakdownValue}>₹{h.service}</span>
+                      <span className={styles.breakdownValue}>{formatINR(h.interest)}</span>
                     </div>
                     {h.penalty ? (
                       <div className={styles.breakdownItem}>
                         <span className={`${styles.breakdownLabel} ${styles.penaltyText}`}>दंड</span>
-                        <span className={`${styles.breakdownValue} ${styles.penaltyText}`}>₹{h.penalty}</span>
+                        <span className={`${styles.breakdownValue} ${styles.penaltyText}`}>{formatINR(h.penalty)}</span>
                       </div>
                     ) : null}
                   </div>
-                ) : null}
-              </Card>
-            </div>
-          </button>
-        ))}
+                </Card>
+              </div>
+            </button>
+          );
+        })}
       </div>
 
       <MonthDetailModal

@@ -10,7 +10,6 @@
 }
 
 .modalCard {
-  position: relative;
   background-color: var(--card-bg);
   border-radius: 16px;
   padding: 20px;
@@ -20,7 +19,7 @@
   overflow-y: auto;
 }
 
-.memberName {
+.modalTitle {
   font-size: 20px;
   font-weight: 700;
   color: var(--text);
@@ -31,16 +30,6 @@
 .fieldWrap {
   margin-bottom: 12px;
   margin-top: 12px;
-}
-
-.fieldGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.fieldGrid .fieldWrap {
-  margin-bottom: 0;
 }
 
 .fieldLabel {
@@ -63,13 +52,6 @@
 
 .fieldInput:focus {
   border-color: var(--gold);
-}
-
-.fieldInput:disabled {
-  background-color: var(--cream-2);
-  color: var(--gold-pale-text);
-  font-weight: 700;
-  cursor: not-allowed;
 }
 
 .actions {
@@ -101,4 +83,10 @@
   border: none;
   color: #2b2405;
   box-shadow: 0 6px 10px rgba(201, 162, 39, 0.55);
+}
+
+.cancelBtn:disabled,
+.saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

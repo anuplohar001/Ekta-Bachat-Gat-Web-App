@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import colors from '../constants/colors';
-import { dashboardStats, groupInfo } from '../constants/mockData';
+import { groupInfo } from '../constants/mockData';
 import { Card, PillButton } from '../components/UI';
 import { RulesIcon, CameraIcon, EntryIcon, ReportIcon } from '../components/Icons';
 import ScreenShell from '../components/ScreenShell';
 import Dropdown from '../components/Dropdown';
 import BankStatementModal from './BankStatementModal';
 import { YEARS } from '../constants/monthOptions';
+import { useGroupSummary } from '../hooks/useGroupSummary';
+import { useMembers } from '../hooks/useMembers';
+import { getCurrentMarathiMonth } from '../utils/monthMapper';
 import bsStyles from './BankStatementModal.module.css';
 import styles from './HomeScreen.module.css';
 import logo from "../../public/logo.png";
@@ -60,14 +63,30 @@ function StatHorizontalCard({ label, value, labelColor, valueColor, bgColor, ico
   );
 }
 
+const formatINR = (value?: number): string =>
+  value == null ? '₹0' : `₹${value.toLocaleString('en-IN')}`;
+
 export default function HomeScreen() {
   const navigate = useNavigate();
-  const { monthProgress } = dashboardStats;
+  const { data: summary, loading, error } = useGroupSummary();
+  const { data: members } = useMembers();
+
+  const totalSavings = formatINR(summary?.totalSavings);
+  const totalAid = formatINR(summary?.totalLoanGiven);
+  const totalRepay = formatINR(summary?.totalRepayed);
+  const loanDue = formatINR(summary?.loanDue);
+  const totalService = formatINR(summary?.totalInterest);
+  const totalPenalty = formatINR(summary?.totalPenalty);
+
+  const doneCount = members?.filter((m) => m.entryStatus).length ?? 0;
+  const totalCount = members?.length ?? 0;
+  const monthLabel = `${getCurrentMarathiMonth()} ${String(new Date().getFullYear()).slice(2)}`;
+
   const maharashtra = 'महाराष्ट्र';
   const [bankStatementOpen, setBankStatementOpen] = useState(false);
   const [bankInterestOpen, setBankInterestOpen] = useState(false);
   const [bankGstOpen, setBankGstOpen] = useState(false);
-  const [bankMonth, setBankMonth] = useState('ऑगस्ट');
+  const [bankMonth, setBankMonth] = useState(getCurrentMarathiMonth());
   const [bankYear, setBankYear] = useState('2026');
   const [interestInput, setInterestInput] = useState('');
   const [gstInput, setGstInput] = useState('');
@@ -83,7 +102,6 @@ export default function HomeScreen() {
   return (
     <>
       <ScreenShell
-        // scroll={false}
         headerBackground={colors.cream}
         contentContainerStyle={{ paddingTop: 0 }}
         headerStyle={{
@@ -102,10 +120,10 @@ export default function HomeScreen() {
               </div>
               <div className={styles.profileInfo}>
                 <h1 className={styles.name}>{groupInfo.name}</h1>
-                <span className={styles.address}>बँक ऑफ {maharashtra}, खाते क्र.: 60350336557</span>
-                <span className={styles.address}>मु. कुरुळी पो. आंधळगाव, ता.शिरूर जि. पुणे</span>
-                <span className={styles.address}>ईमेल : ektayuwa@gmail.com</span>
-                <span className={styles.sub}>स्थापना दि. : 15 डिसेंबर 2019</span>
+                <span className={styles.address}>बँक ऑफ {maharashtra}, खाते क्र.: {groupInfo.account}</span>
+                <span className={styles.address}>{groupInfo.address}</span>
+                <span className={styles.address}>ईमेल : {groupInfo.email}</span>
+                <span className={styles.sub}>स्थापना दि. : {groupInfo.established}</span>
               </div>
             </div>
             <div className={styles.totalCard}>
@@ -114,7 +132,7 @@ export default function HomeScreen() {
                   <Database size={18} color={colors.successGreen} />
                 </span>
                 <span className={styles.totalLabel}>एकूण बचत</span>
-                <span className={styles.totalValue}>{dashboardStats.totalSavings}</span>
+                <span className={styles.totalValue}>{loading ? '…' : totalSavings}</span>
               </div>
               <div className={styles.totalDivider} />
               <div className={styles.totalItem}>
@@ -122,7 +140,7 @@ export default function HomeScreen() {
                   <DollarSign size={18} color={colors.statLoanText} />
                 </span>
                 <span className={styles.totalLabel}>एकूण आर्थिक सहाय्य</span>
-                <span className={styles.totalValue}>{dashboardStats.totalLoanDue}</span>
+                <span className={styles.totalValue}>{loading ? '…' : totalAid}</span>
               </div>
             </div>
           </div>
@@ -188,7 +206,6 @@ export default function HomeScreen() {
               className={`${styles.quickBox} ${styles.quickBoxFull}`}
               style={{ background: colors.forest }}
               textStyle={{ color: colors.cream, fontWeight: 510, textAlign: 'left' }}
-              // onPress={() => setBankStatementOpen(true)}
               icon={<ChevronRight size={21} color={colors.cream} />}
             >
 
@@ -199,37 +216,39 @@ export default function HomeScreen() {
         }
       >
         <div className={styles.statGrid}>
+          {error && (
+            <p style={{ color: colors.redInk, fontSize: 13, margin: '0 0 8px' }}>{error}</p>
+          )}
           <Card className={styles.fourGrid}>
             <div className={styles.fourCell}>
               <span className={styles.fourLabel}>एकुण परत फेड</span>
               <span className={styles.fourValue} style={{ color: colors.statRepayText }}>
-                {dashboardStats.totalSavings}
+                {loading ? '…' : totalRepay}
               </span>
             </div>
             <div className={styles.fourCell}>
               <span className={styles.fourLabel}>आर्थिक सहाय्य बाकी</span>
               <span className={styles.fourValue} style={{ color: colors.statBalanceText }}>
-                {dashboardStats.totalLoanDue}
+                {loading ? '…' : loanDue}
               </span>
             </div>
             <div className={styles.fourCell}>
               <span className={styles.fourLabel}>एकुण सेवाशुल्क</span>
               <span className={styles.fourValue} style={{ color: colors.statFeeText }}>
-                {dashboardStats.totalServiceFee}
+                {loading ? '…' : totalService}
               </span>
             </div>
             <div className={styles.fourCell}>
               <span className={styles.fourLabel}>एकुण दंड</span>
               <span className={styles.fourValue} style={{ color: colors.statPenaltyText }}>
-                {dashboardStats.totalPenalty}
+                {loading ? '…' : totalPenalty}
               </span>
             </div>
           </Card>
           <StatHorizontalCard
-            label="ऑगस्ट 26 "
-            value={`${monthProgress.done} / ${monthProgress.total}`}
+            label={monthLabel}
+            value={loading ? '…' : `${doneCount} / ${totalCount}`}
             bgColor={colors.statPendingGrad}
-            // labelColor={colors.statPendingText}
             valueColor={colors.statPendingText}
             icon={<Clock size={20} color={colors.statPendingText} />}
           />
@@ -241,7 +260,7 @@ export default function HomeScreen() {
             >
               <span className={styles.twoLabel}>बँक व्याज</span>
               <span className={styles.twoValue} style={{ color: colors.statInterestText }}>
-                {dashboardStats.totalServiceFee}
+                {loading ? '…' : totalService}
               </span>
             </button>
             <button
@@ -251,7 +270,7 @@ export default function HomeScreen() {
             >
               <span className={styles.twoLabel}>बँक जी.एस.टी</span>
               <span className={styles.twoValue} style={{ color: colors.statGstText }}>
-                {dashboardStats.totalPenalty}
+                {loading ? '…' : totalPenalty}
               </span>
             </button>
           </Card>

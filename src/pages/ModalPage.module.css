@@ -105,6 +105,36 @@
   margin: 3px;
 }
 
+.infoCard {
+  margin-top: 14px;
+  padding: 8px 18px;
+}
+
+.infoRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--row-divider);
+}
+
+.infoRow:last-child {
+  border-bottom: none;
+}
+
+.infoLabel {
+  font-size: 15px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.infoValue {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+
 .logoutBtn {
   width: 100%;
   padding: 13px 0;

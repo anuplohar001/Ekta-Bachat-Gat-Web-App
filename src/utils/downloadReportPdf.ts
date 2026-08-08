@@ -1,7 +1,7 @@
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
-import { monthlyReport, groupInfo, MonthlyReportRow } from '../constants/mockData';
-import { COLUMNS, COLUMN_SET, ReportType, renderCell, ColumnKey } from './reportColumns';
+import { groupInfo } from '../constants/mockData';
+import { COLUMNS, COLUMN_SET, ReportType, renderCell, ColumnKey, ReportRow } from './reportColumns';
 
 const DESIGN_WIDTH = 1122;
 const CAPTURE_SCALE = 2;
@@ -14,13 +14,13 @@ interface ReportPdfData {
 
 function buildPageHtml(
   data: ReportPdfData,
-  chunkRows: MonthlyReportRow[],
+  chunkRows: ReportRow[],
+  totals: Record<string, number>,
   visibleCols: ColumnKey[],
   includeTfoot: boolean,
   startIndex: number
 ): string {
   const { reportType, month, year } = data;
-  const totals = monthlyReport.totals;
 
   const headCells = visibleCols
     .map((col, i) => {
@@ -42,7 +42,10 @@ function buildPageHtml(
         `<tr>${visibleCols
           .map((col, i) => {
             const cls = i === 0 ? 'td td-name' : i === 1 ? 'td td-name' : 'td';
-            return `<td class="${cls}">${col === 'sr' ? startIndex + idx + 1 : renderCell(r, col)}</td>`;
+            const value = col === 'sr' ? startIndex + idx + 1 : renderCell(r, col);
+            return `<td class="${cls}">${
+              typeof value === 'number' ? value.toLocaleString('en-IN') : value
+            }</td>`;
           })
           .join('')}</tr>`
     )
@@ -50,11 +53,11 @@ function buildPageHtml(
 
   const footCells = visibleCols
     .slice(2)
-    .map((_, i, arr) => {
+    .map((col, i, arr) => {
       const isLast = i === arr.length - 1;
-      return `<td class="td ${isLast ? 'td-total td-highlight' : 'td-total'}">${
-        (isLast ? totals.total : totals.saving).toLocaleString('en-IN')
-      }</td>`;
+      return `<td class="td ${isLast ? 'td-total td-highlight' : 'td-total'}">${(
+        totals[col] ?? 0
+      ).toLocaleString('en-IN')}</td>`;
     })
     .join('');
 
@@ -174,7 +177,7 @@ function buildPageHtml(
         </div>
         <div class="pdf-meta">
           <div>तयार दि.: ${today}</div>
-          <div>सदस्य संख्या: ${monthlyReport.rows.length}</div>
+          <div>सदस्य संख्या: ${chunkRows.length}</div>
         </div>
       </div>
       <div class="pdf-badge">${reportType} • ${month} • ${year}</div>
@@ -220,17 +223,21 @@ async function capturePage(pageEl: HTMLElement): Promise<HTMLCanvasElement> {
   });
 }
 
-export async function downloadReportPdf(data: ReportPdfData) {
+export async function downloadReportPdf(
+  data: ReportPdfData,
+  rows: ReportRow[],
+  totals: Record<string, number>
+) {
   const { reportType, month, year } = data;
   const visibleCols = COLUMN_SET[reportType];
-  const allRows = monthlyReport.rows;
+  const allRows = rows;
 
   const measureWrapper = createOffscreenWrapper(
-    buildPageHtml(data, allRows, visibleCols, true, 0)
+    buildPageHtml(data, allRows, totals, visibleCols, true, 0)
   );
   const measureRoot = measureWrapper.querySelector('.pdf-root') as HTMLElement;
 
-  let chunks: MonthlyReportRow[][] = [];
+  let chunks: ReportRow[][] = [];
 
   try {
     await document.fonts.ready;
@@ -250,7 +257,7 @@ export async function downloadReportPdf(data: ReportPdfData) {
     const mmPerPx = usableW / (DESIGN_WIDTH * CAPTURE_SCALE);
     const pageCapPx = ((pageH - margin * 2) / mmPerPx) / CAPTURE_SCALE;
 
-    let chunk: MonthlyReportRow[] = [];
+    let chunk: ReportRow[] = [];
     let used = headerBlockPx;
     allRows.forEach((row, i) => {
       const h = rowHeights[i] || 40;
@@ -278,7 +285,7 @@ export async function downloadReportPdf(data: ReportPdfData) {
   for (let i = 0; i < chunks.length; i++) {
     const startIndex = chunks.slice(0, i).reduce((sum, c) => sum + c.length, 0);
     const wrapper = createOffscreenWrapper(
-      buildPageHtml(data, chunks[i], visibleCols, i === chunks.length - 1, startIndex)
+      buildPageHtml(data, chunks[i], totals, visibleCols, i === chunks.length - 1, startIndex)
     );
     const pageEl = wrapper.querySelector('.pdf-root') as HTMLElement;
     try {

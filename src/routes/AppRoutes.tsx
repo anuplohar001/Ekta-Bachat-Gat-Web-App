@@ -9,10 +9,12 @@ import TotalPage from '../pages/TotalPage';
 import ModalPage from '../pages/ModalPage';
 import RulesPage from '../pages/RulesPage';
 import PhotoPage from '../pages/PhotoPage';
+import LoginPage from '../pages/LoginPage';
 
 export default function AppRoutes() {
   return (
     <Routes>
+      <Route path="/login" element={<LoginPage />} />
       <Route element={<TabLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/members" element={<MembersPage />} />
@@ -22,7 +24,7 @@ export default function AppRoutes() {
         <Route path="/rules" element={<RulesPage />} />
         <Route path="/photo" element={<PhotoPage />} />
         <Route path="/profile" element={<ModalPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Route>
     </Routes>
   );
