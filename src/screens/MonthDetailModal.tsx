@@ -1,27 +1,14 @@
 import React, { useEffect } from 'react';
 import colors from '../constants/colors';
+import type { MemberHistoryEntry } from '../api/types';
+import { toMarathiMonth } from '../utils/monthMapper';
 import styles from './MonthDetailModal.module.css';
 
-export interface MonthDetailData {
-  month: string;
-  total: number;
-  saving?: number;
-  repay?: number;
-  service?: number;
-  penalty?: number;
-  active?: boolean;
-  faded?: boolean;
-  field1?: string;
-  field2?: string;
-  field3?: string;
-  field4?: string;
-  field5?: string;
-  field6?: string;
-}
+const formatINR = (value: number): string => `₹${value.toLocaleString('en-IN')}`;
 
 interface MonthDetailModalProps {
   visible: boolean;
-  data: MonthDetailData | null;
+  data: MemberHistoryEntry | null;
   onClose: () => void;
 }
 
@@ -42,43 +29,43 @@ export default function MonthDetailModal({ visible, data, onClose }: MonthDetail
       <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className={styles.modalHeader}>
-          <span className={styles.modalMonthYear}>{data.month}</span>
+          <span className={styles.modalMonthYear}>{`${toMarathiMonth(data.month)} ${data.year}`}</span>
           <button type="button" className={styles.modalClose} onClick={onClose}>
             ✕
           </button>
         </div>
 
-        {/* Existing 6 values */}
+        {/* जमाखर्च */}
         <div>
           <p className={styles.modalSectionTitle}>जमाखर्च</p>
           <div className={styles.modalGrid}>
-            <StatBox label="मासिक बचत" value={data.saving} boxStyle={styles.bgGreen} />
-            <StatBox label="आर्थिक सहाय्य परतफेड" value={data.repay} boxStyle={styles.bgTeal} />
-            <StatBox label="दिलेले आर्थिक सहाय्य" value={`₹${0}`} boxStyle={styles.bgPurple} />
-            <StatBox label="सेवाशुल्क" value={data.service} boxStyle={styles.bgYellow} />
+            <StatBox label="मासिक बचत" value={formatINR(data.saving)} boxStyle={styles.bgGreen} />
+            <StatBox label="आर्थिक सहाय्य परतफेड" value={formatINR(data.repay)} boxStyle={styles.bgTeal} />
+            <StatBox label="दिलेले आर्थिक सहाय्य" value={formatINR(data.loanGiven)} boxStyle={styles.bgPurple} />
+            <StatBox label="सेवाशुल्क" value={formatINR(data.interest)} boxStyle={styles.bgYellow} />
             <StatBox
               label="दंड"
-              value={data.penalty ?? 0}
+              value={formatINR(data.penalty)}
               boxStyle={styles.bgRed}
               valueStyle={data.penalty ? { color: colors.redInk } : undefined}
             />
-            <StatBox label="एकूण" value={`₹${data.total?.toLocaleString('en-IN')}`} boxStyle={styles.bgBlue} />
+            <StatBox label="एकूण" value={formatINR(data.total)} boxStyle={styles.bgBlue} />
           </div>
         </div>
 
         {/* Divider above तेरीज पत्रक */}
         <div className={styles.sectionDivider} />
 
-        {/* New 6 values — placeholders, fill in once you have the fields */}
+        {/* तेरीज पत्रक */}
         <div>
           <p className={styles.modalSectionTitle}>तेरीज पत्रक</p>
           <div className={styles.modalGrid}>
-            <StatBox label="एकूण बचत" value={data.field1 ?? '—'} boxStyle={styles.bgGreen} />
-            <StatBox label="एकूण आर्थिक सहाय्य " value={data.field2 ?? '—'} boxStyle={styles.bgPurple} />
-            <StatBox label="एकूण परतफेड" value={data.field3 ?? '—'} boxStyle={styles.bgTeal} />
-            <StatBox label="आर्थिक सहाय्य बाकी " value={data.field4 ?? '—'} boxStyle={styles.bgPurple} />
-            <StatBox label="एकूण सेवाशुल्क " value={data.field5 ?? '—'} boxStyle={styles.bgYellow} />
-            <StatBox label="एकूण दंड" value={data.field6 ?? '—'} boxStyle={styles.bgRed} />
+            <StatBox label="एकूण बचत" value={formatINR(data.totalSaving)} boxStyle={styles.bgGreen} />
+            <StatBox label="एकूण आर्थिक सहाय्य " value={formatINR(data.totalLoanGiven)} boxStyle={styles.bgPurple} />
+            <StatBox label="एकूण परतफेड" value={formatINR(data.totalRepayed)} boxStyle={styles.bgTeal} />
+            <StatBox label="आर्थिक सहाय्य बाकी " value={formatINR(data.loanDue)} boxStyle={styles.bgPurple} />
+            <StatBox label="एकूण सेवाशुल्क " value={formatINR(data.totalInterest)} boxStyle={styles.bgYellow} />
+            <StatBox label="एकूण दंड" value={formatINR(data.totalPenalty)} boxStyle={styles.bgRed} />
           </div>
         </div>
       </div>
@@ -88,7 +75,7 @@ export default function MonthDetailModal({ visible, data, onClose }: MonthDetail
 
 interface StatBoxProps {
   label: string;
-  value?: number | string;
+  value: string;
   valueStyle?: React.CSSProperties;
   boxStyle?: string;
 }

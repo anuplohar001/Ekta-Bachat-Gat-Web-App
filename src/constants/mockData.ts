@@ -2,12 +2,22 @@ export interface GroupInfo {
   name: string;
   since: number;
   memberCount: number;
+  bank: string;
+  account: string;
+  address: string;
+  email: string;
+  established: string;
 }
 
 export const groupInfo: GroupInfo = {
   name: 'एकता युवा बचत गट',
   since: 2018,
   memberCount: 29,
+  bank: 'बँक ऑफ महाराष्ट्र',
+  account: '60350336557',
+  address: 'मु. कुरुळी पो. आंधळगाव, ता.शिरूर जि. पुणे',
+  email: 'ektayuwa@gmail.com',
+  established: '15 डिसेंबर 2019',
 };
 
 export interface DashboardStats {
@@ -29,14 +39,29 @@ export const dashboardStats: DashboardStats = {
 export type EntryStatus = 'done' | 'pending';
 
 export interface MemberHistoryEntry {
+  memberId?: string;       //foreign key to Member.id
   month: string;
-  total: number;
+  year?: number;
+
   saving?: number;
   repay?: number;
+  interest?: number;
   service?: number;
   penalty?: number;
-  active?: boolean;
+  total: number;   //saving + repay + interest + penalty
+  loanGiven?: number;
   faded?: boolean;
+  active?: boolean;
+
+  entryStatus?: EntryStatus;
+
+  totalSaving?: string;  //previous month totalSaving + saving
+  totalRepay?: string;   //previous month totalRepay + repay
+  totalInterest?: string; //previous month totalInterest + interest
+  totalPenalty?: string;  //previous month totalPenalty + penalty
+  totalLoanGiven?: string;   //previous month totalLoanGiven + loanGiven
+  loanDue?: string;      // previous month loanDue - repay
+  [key: string]: unknown;
 }
 
 export interface Member {
@@ -46,14 +71,15 @@ export interface Member {
   number: number;
   monthlySaving: number;
   joined: string;
-  totalSaving: string;
-  totalAid: string;
-  totalRepay: string;
-  loanDue: string;
-  totalService: string;
-  totalPenalty: string;
-  entryStatus: EntryStatus;
   history: MemberHistoryEntry[];
+  totalSaving?: string;
+  totalAid?: string;
+  totalRepay?: string;
+  loanDue?: string;
+  totalService?: string;
+  totalPenalty?: string;
+  entryStatus?: EntryStatus;
+  [key: string]: unknown;
 }
 
 export const members: Member[] = [
@@ -491,31 +517,6 @@ export interface Contributor {
   amount: string;
 }
 
-export interface YearlySummary {
-  year: string;
-  totalTurnover: string;
-  yoyChange: string;
-  totalSavings: string;
-  totalLoanDisbursed: string;
-  totalServiceFee: string;
-  totalPenalty: string;
-  monthlyBars: number[];
-  monthLabels: string[];
-  topContributors: Contributor[];
-}
 
-export const yearlySummary: YearlySummary = {
-  year: '2026',
-  totalTurnover: '₹27,23,398',
-  yoyChange: '8.4%',
-  totalSavings: '₹17,98,000',
-  totalLoanDisbursed: '₹63,00,000',
-  totalServiceFee: '₹6,14,288',
-  totalPenalty: '₹14,110',
-  monthlyBars: [48, 40, 60, 34, 70, 52, 80, 45, 58, 90, 65, 42], // relative heights 0-100
-  monthLabels: ['जाने', 'फेब्रु', 'मार्च', 'एप्रि', 'मे', 'जून', 'जुलै', 'ऑग', 'सप्टें', 'ऑक्टो', 'नोव्हें', 'डिसें'],
-  topContributors: [
-    { rank: 1, name: 'शहानुर शहाबुद्दीन पठाण', amount: '₹4,53,000' },
-    { rank: 2, name: 'संतोष नानासाहेब ढवळे', amount: '₹3,80,000' },
-  ],
-};
+
+

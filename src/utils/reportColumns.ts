@@ -1,5 +1,3 @@
-import { MonthlyReportRow } from '../constants/mockData';
-
 export const REPORT_TYPES = ['जमाखर्च', 'तेरीज पत्रक', 'सर्व रीपोर्ट'] as const;
 
 export type ReportType = typeof REPORT_TYPES[number];
@@ -38,18 +36,20 @@ export const COLUMNS: { key: ColumnKey; label: string }[] = [
 ];
 
 export const COLUMN_SET: Record<ReportType, ColumnKey[]> = {
-  जमाखर्च: ['sr', 'name', 'saving', 'repay', 'fee', 'penalty'],
+  जमाखर्च: ['sr', 'name', 'saving', 'repay', 'fee', 'penalty', 'total', 'loaned'],
   'तेरीज पत्रक': ['sr', 'name', 'totSavings', 'totLoan', 'totRepay', 'balance', 'totFee', 'totPenalty'],
   'सर्व रीपोर्ट': COLUMNS.map((c) => c.key),
 };
 
-export function renderCell(row: MonthlyReportRow, col: ColumnKey) {
-  switch (col) {
-    case 'name':
-      return row.name;
-    case 'saving':
-      return row.saving;
-    default:
-      return row.total.toLocaleString('en-IN');
-  }
+export interface ReportRow {
+  sr: number;
+  name: string;
+  [key: string]: string | number;
+}
+
+export function renderCell(row: ReportRow, col: ColumnKey): string | number {
+  if (col === 'sr') return row.sr;
+  if (col === 'name') return row.name;
+  const value = row[col];
+  return typeof value === 'number' ? value : (value ?? 0);
 }

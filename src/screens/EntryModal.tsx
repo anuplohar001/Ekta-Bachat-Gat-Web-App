@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './EntryModal.module.css';
+import Loader from '../components/Loader';
 
 export interface EntryFormValues {
   saving?: string;
@@ -13,6 +14,8 @@ interface EntryModalProps {
   visible: boolean;
   memberName: string;
   initialValues?: EntryFormValues;
+  loading: boolean;
+  saving: string;
   onCancel: () => void;
   onSave: (values: EntryFormValues) => void;
 }
@@ -38,9 +41,10 @@ interface FieldInputProps {
   field: { key: keyof EntryFormValues; label: string };
   value: string;
   onChange: (value: string) => void;
+  disabled?: boolean
 }
 
-function FieldInput({ field, value, onChange }: FieldInputProps) {
+function FieldInput({ field, value, onChange, disabled = false }: FieldInputProps) {
   return (
     <div className={styles.fieldWrap}>
       <label className={styles.fieldLabel} htmlFor={`entry-${field.key}`}>
@@ -54,17 +58,18 @@ function FieldInput({ field, value, onChange }: FieldInputProps) {
         placeholder={field.label}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        disabled={disabled}
       />
     </div>
   );
 }
 
-export default function EntryModal({ visible, memberName, initialValues, onCancel, onSave }: EntryModalProps) {
+export default function EntryModal({saving, visible, memberName, initialValues, onCancel, onSave, loading }: EntryModalProps) {
   const [values, setValues] = useState<EntryFormValues>({});
-
+  console.log({saving})
   useEffect(() => {
     if (!visible) return;
-    setValues(initialValues ?? {});
+    setValues({...initialValues, saving});
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onCancel();
     };
@@ -79,6 +84,7 @@ export default function EntryModal({ visible, memberName, initialValues, onCance
   return (
     <div className={styles.modalOverlay} onClick={onCancel}>
       <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
+        {loading && <Loader />}
         <p className={styles.memberName}>{memberName}</p>
 
         <div className={styles.fieldGrid}>
@@ -88,6 +94,7 @@ export default function EntryModal({ visible, memberName, initialValues, onCance
               field={field}
               value={values[field.key] ?? ''}
               onChange={(value) => setValues((prev) => ({ ...prev, [field.key]: value }))}
+              disabled={field.key === "saving"}
             />
           ))}
         </div>

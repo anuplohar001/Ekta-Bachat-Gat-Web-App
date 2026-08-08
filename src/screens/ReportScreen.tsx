@@ -1,17 +1,25 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import colors from '../constants/colors';
-import { monthlyReport } from '../constants/mockData';
 import Dropdown from '../components/Dropdown';
 import { MONTHS, YEARS } from '../constants/monthOptions';
 import ScreenShell from '../components/ScreenShell';
 import { downloadReportPdf } from '../utils/downloadReportPdf';
 import { REPORT_TYPES, ReportType, COLUMNS, COLUMN_SET, renderCell } from '../utils/reportColumns';
+import { useReport } from '../hooks/useReport';
+import { getCurrentMarathiMonth } from '../utils/monthMapper';
 import styles from './ReportScreen.module.css';
 import "./Reports.css"
 import { Activity, Download } from 'react-feather';
+import Loader from '../components/Loader';
 
-const ReportTable: React.FC<{ reportType: ReportType }> = ({ reportType }) => {
+interface ReportTableProps {
+  reportType: ReportType;
+  rows: ReturnType<typeof useReport>['rows'];
+  totals: ReturnType<typeof useReport>['totals'];
+}
+
+const ReportTable: React.FC<ReportTableProps> = ({ reportType, rows, totals }) => {
   const visibleCols = COLUMN_SET[reportType];
 
   return (
@@ -46,7 +54,7 @@ const ReportTable: React.FC<{ reportType: ReportType }> = ({ reportType }) => {
         </thead>
 
         <tbody>
-          {monthlyReport.rows.map((r, idx) => (
+          {rows.map((r, idx) => (
             <tr key={idx} className="body-row">
               {visibleCols.map((col, i) => (
                 <td
@@ -69,14 +77,11 @@ const ReportTable: React.FC<{ reportType: ReportType }> = ({ reportType }) => {
         <tfoot>
           <tr className="footer-row">
             <td className="footer-cell footer-cell-name" colSpan={2}>एकुण</td>
-            {visibleCols.slice(2).map((col, i, arr) => {
-              const isLast = i === arr.length - 1;
-              return (
-                <td key={col} className={isLast ? 'footer-cell footer-cell-highlight' : 'footer-cell'}>
-                  {(isLast ? monthlyReport.totals.total : monthlyReport.totals.saving).toLocaleString('en-IN')}
-                </td>
-              );
-            })}
+            {visibleCols.slice(2).map((col) => (
+              <td key={col} className="footer-cell">
+                {(totals[col] ?? 0).toLocaleString('en-IN')}
+              </td>
+            ))}
           </tr>
         </tfoot>
       </table>
@@ -92,17 +97,14 @@ interface ReportLabels {
 
 function MonthlyReportBody({ reportType, month, year }: ReportLabels) {
   return (
-    <>
-      <div
-        className="p-2 rounded-5"
-        style={{width: '100%', textAlign:"center"}}
-      >
-        <span style={{ textAlign: 'center', color: colors.goldPaleText, fontWeight: 600, fontSize: 18 }}>
-          {reportType} • {month} • {year}
-        </span>
-      </div>
-      <ReportTable reportType={reportType} />
-    </>
+    <div
+      className="p-2 rounded-5"
+      style={{ width: '100%', textAlign: 'center' }}
+    >
+      <span style={{ textAlign: 'center', color: colors.goldPaleText, fontWeight: 600, fontSize: 18 }}>
+        {reportType} • {month} • {year}
+      </span>
+    </div>
   );
 }
 
@@ -115,15 +117,17 @@ export default function ReportScreen() {
     }
     return REPORT_TYPES[0];
   });
-  const [month, setMonth] = useState<string>('जुलै');
-  const [year, setYear] = useState<string>('2026');
+  const [month, setMonth] = useState<string>(getCurrentMarathiMonth());
+  const [year, setYear] = useState<string>(String(new Date().getFullYear()));
   const [downloading, setDownloading] = useState(false);
+
+  const { rows, totals, loading, error } = useReport(reportType, month, Number(year));
 
   const handleDownloadPdf = async () => {
     if (downloading) return;
     setDownloading(true);
     try {
-      await downloadReportPdf({ reportType, month, year });
+      await downloadReportPdf({ reportType, month, year }, rows, totals);
     } finally {
       setDownloading(false);
     }
@@ -137,11 +141,9 @@ export default function ReportScreen() {
             <Activity color={colors.cream2} className="me-3" />
             <h1 className={styles.headerTitle}>महिना अहवाल</h1>
           </div>
-
         </>
       }
     >
-
       <div style={{ display: 'flex', flexDirection: 'row', gap: 8, marginBottom: 12 }}>
         {REPORT_TYPES.map((label) => {
           const active = reportType === label;
@@ -166,6 +168,18 @@ export default function ReportScreen() {
       </div>
 
       <MonthlyReportBody reportType={reportType} month={month} year={year} />
+      
+      <div className='position-relative mt-5'>
+        {loading && !rows.length && (
+          <Loader blur={false}/>
+        )}
+      </div>
+      {error && (
+        <p style={{ color: colors.redInk, fontSize: 13, textAlign: 'center', padding: 12 }}>
+          {error}
+        </p>
+      )}
+      {!loading && !error && <ReportTable reportType={reportType} rows={rows} totals={totals} />}
 
       <button
         type="button"

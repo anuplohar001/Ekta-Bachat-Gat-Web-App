@@ -58,6 +58,7 @@
 }
 
 .list {
+  position: relative;
   padding: 14px 16px 94px;
   display: flex;
   flex-direction: column;
